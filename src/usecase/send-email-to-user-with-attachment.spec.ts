@@ -1,6 +1,7 @@
 import { User } from '../entities/user'
 import { SendEmailToUserWithAttachment } from './send-email-to-user-with-attachment'
 import { MailService } from './port/mail-service'
+import * as fs from 'fs'
 
 const makeSut = (): SendEmailToUserWithAttachment => {
   class MailServiceStub implements MailService {
@@ -14,7 +15,9 @@ const makeSut = (): SendEmailToUserWithAttachment => {
 
 test('should email user with attachment', () => {
   const user: User = new User('Otávio Lemos', 'otaviolemos@gmail.com')
-  const attachmentFilePath: string = '../resources/test.pdf'
+  const attachmentFilePath: string = 'test.txt'
+  const data = new Uint8Array(Buffer.from('testing 1 2 3'))
+  createFile(attachmentFilePath, data)
   var mailInfo = {
     from: 'Test <formEmail@gmail.com>',
     to: user.email,
@@ -23,9 +26,18 @@ test('should email user with attachment', () => {
     html: '<b>Hello world attachment test HTML</b>',
     attachments: [{
       filename: attachmentFilePath,
-      contentType: 'application/pdf'
+      contentType: 'text/plain'
     }]
   }
   const sut = makeSut()
   expect(sut.sendEmailToUserWithAttachment(mailInfo)).toBeTruthy()
+  deleteFile(attachmentFilePath)
 })
+
+function createFile (name: string, data: Uint8Array): void {
+  fs.writeFileSync(name, data)
+}
+
+function deleteFile (name: string): void {
+  fs.unlinkSync(name)
+}
