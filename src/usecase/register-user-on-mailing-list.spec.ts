@@ -8,5 +8,13 @@ test('should register new user on mailing list', () => {
   const users: User[] = []
   const repo: UserRepository = new InMemoryUserRepository(users)
   const sut = new RegisterUserOnMailingList(user, repo)
-  sut.registerUserOnMailingList(user)
+  expect(sut.registerUserOnMailingList(user)).toBeTruthy()
+})
+
+test('should not register existing user on mailing list', () => {
+  const user: User = new User('Otávio Lemos', 'otaviolemos@gmail.com')
+  const users: User[] = [user]
+  const repo: UserRepository = new InMemoryUserRepository(users)
+  const sut = new RegisterUserOnMailingList(user, repo)
+  expect(sut.registerUserOnMailingList(user)).toBeFalsy()
 })

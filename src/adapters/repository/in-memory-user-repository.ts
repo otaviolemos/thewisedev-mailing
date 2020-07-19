@@ -12,11 +12,13 @@ export class InMemoryUserRepository implements UserRepository {
   }
 
   add (user: User): boolean {
-    const oldLen = this.users.length
-    this.users.push(user)
-    if (oldLen < this.users.length) {
-      return true
+    var u: User
+    for (u of this.users) {
+      if (u.email === user.email) {
+        return false
+      }
     }
-    return false
+    this.users.push(user)
+    return true
   }
 }
