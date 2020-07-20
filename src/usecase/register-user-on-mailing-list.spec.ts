@@ -1,9 +1,11 @@
-import { User } from '../entities/user'
+import { User } from '../domain/user'
 import { UserRepository } from './port/user-repository'
 import { InMemoryUserRepository } from '../adapters/repository/in-memory-user-repository'
 import { ExistingUserError } from '../adapters/repository/errors/existing-user-error'
 import { RegisterUserOnMailingList } from './register-user-on-mailing-list'
 import { InvalidParamError } from './errors/invalid-param-error'
+
+// todo: it appears that the use cases should return Promise<void>
 
 test('should register new user on mailing list with complete data', () => {
   const username = 'Otávio Lemos'

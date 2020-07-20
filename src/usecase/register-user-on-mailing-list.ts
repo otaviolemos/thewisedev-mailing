@@ -1,4 +1,4 @@
-import { User } from '../entities/user'
+import { User } from '../domain/user'
 import { UserRepository } from './port/user-repository'
 import { InvalidParamError } from './errors/invalid-param-error'
 

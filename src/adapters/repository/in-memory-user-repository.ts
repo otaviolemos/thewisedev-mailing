@@ -1,5 +1,5 @@
 import { UserRepository } from '../../usecase/port/user-repository'
-import { User } from '../../entities/user'
+import { User } from '../../domain/user'
 import { ExistingUserError } from './errors/existing-user-error'
 
 export class InMemoryUserRepository implements UserRepository {
