@@ -1,4 +1,3 @@
-import { User } from '../entities/user'
 import { SendEmailToUserWithAttachment } from './send-email-to-user-with-attachment'
 import { MailService } from './port/mail-service'
 import * as fs from 'fs'
@@ -14,13 +13,12 @@ const makeSut = (): SendEmailToUserWithAttachment => {
 }
 
 test('should email user with attachment', () => {
-  const user: User = new User('Otávio Lemos', 'otaviolemos@gmail.com')
   const attachmentFilePath: string = 'test.txt'
   const data = new Uint8Array(Buffer.from('testing 1 2 3'))
   createFile(attachmentFilePath, data)
   var mailInfo = {
     from: 'Test <formEmail@gmail.com>',
-    to: user.email,
+    to: 'Otávio Lemos <otaviolemos@gmail.com>',
     subject: 'Attachment',
     text: 'Hello world attachment test',
     html: '<b>Hello world attachment test HTML</b>',
