@@ -5,9 +5,6 @@ import { ExistingUserError } from '../adapters/repository/errors/existing-user-e
 import { RegisterUserOnMailingList } from './register-user-on-mailing-list'
 import { InvalidParamError } from './errors/invalid-param-error'
 
-// todo: make use case return void and return errors instead of false
-// invalidParamError - use case
-
 test('should register new user on mailing list with complete data', () => {
   const username = 'Otávio Lemos'
   const useremail = 'otaviolemos@gmail.com'
