@@ -1,5 +1,6 @@
 import { User } from '../entities/user'
 import { UserRepository } from './port/user-repository'
+import { InvalidParamError } from './errors/invalid-param-error'
 
 export class RegisterUserOnMailingList {
   constructor (public userRepository: UserRepository) {}
@@ -10,5 +11,6 @@ export class RegisterUserOnMailingList {
       const u = new User(name, email)
       return this.userRepository.add(u)
     }
+    return new InvalidParamError('Invalid user name or email.')
   }
 }
