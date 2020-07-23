@@ -5,7 +5,12 @@ import { ExistingUserError } from '../adapters/repository/errors/existing-user-e
 import { RegisterUserOnMailingList } from './register-user-on-mailing-list'
 import { InvalidParamError } from './errors/invalid-param-error'
 
-// todo: it appears that the use cases should return Promise<void>
+// todo: it appears that it's best for the use cases to return Promise<void> (or look at core below)
+// todo: create a use case interface with IRequest, IResponse
+// look here: https://github.com/stemmlerjs/ddd-forum/tree/master/src/shared/core
+// and here: https://github.com/stemmlerjs/ddd-forum/tree/master/src/modules/users/useCases
+// look here: Either type https://blog.logrocket.com/safer-code-with-container-types-either-and-maybe/
+// and here: https://github.com/joanllenas/ts.data.either
 
 test('should register new user on mailing list with complete data', () => {
   const username = 'Otávio Lemos'
