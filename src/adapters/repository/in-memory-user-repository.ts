@@ -12,6 +12,15 @@ export class InMemoryUserRepository implements UserRepository {
     return this.users
   }
 
+  findUserByEmail (email: string): User {
+    var u: User
+    for (u of this.users) {
+      if (u.email === email) {
+        return u
+      }
+    }
+  }
+
   add (user: User): Error {
     var u: User
     for (u of this.users) {

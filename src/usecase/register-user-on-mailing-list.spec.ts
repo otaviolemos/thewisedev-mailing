@@ -19,14 +19,8 @@ test('should register new user on mailing list with complete data', () => {
   const repo: UserRepository = new InMemoryUserRepository(users)
   const sut = new RegisterUserOnMailingList(repo)
   sut.registerUserOnMailingList(username, useremail)
-  users = repo.findAllUsers()
-  var exists = false
-  for (var user of users) {
-    if (user.email === useremail && user.name === username) {
-      exists = true
-    }
-  }
-  expect(exists).toBeTruthy()
+  const user = repo.findUserByEmail(useremail)
+  expect(user.email).toEqual('otaviolemos@gmail.com')
 })
 
 test('should not register new user with invalid name', () => {
