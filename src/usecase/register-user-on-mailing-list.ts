@@ -3,7 +3,11 @@ import { UserRepository } from './port/user-repository'
 import { InvalidParamError } from './errors/invalid-param-error'
 
 export class RegisterUserOnMailingList {
-  constructor (public userRepository: UserRepository) {}
+  private readonly userRepository: UserRepository
+
+  constructor (userRepo: UserRepository) {
+    this.userRepository = userRepo
+  }
 
   registerUserOnMailingList (name: string, email: string): Error {
     if (name !== null && name !== '' &&
