@@ -1,6 +1,5 @@
 import { UserRepository } from '../../usecase/port/user-repository'
 import { User } from '../../domain/user'
-import { ExistingUserError } from './errors/existing-user-error'
 
 export class InMemoryUserRepository implements UserRepository {
   users: User[] = []
@@ -8,11 +7,11 @@ export class InMemoryUserRepository implements UserRepository {
     this.users = users
   }
 
-  findAllUsers (): User[] {
+  async findAllUsers (): Promise<User[]> {
     return this.users
   }
 
-  findUserByEmail (email: string): User {
+  async findUserByEmail (email: string): Promise<User> {
     var u: User
     for (u of this.users) {
       if (u.email === email) {
@@ -21,13 +20,20 @@ export class InMemoryUserRepository implements UserRepository {
     }
   }
 
-  add (user: User): Error {
+  async exists (email: string): Promise<boolean> {
     var u: User
     for (u of this.users) {
-      if (u.email === user.email) {
-        return new ExistingUserError('User e-mail already exists.')
+      if (u.email === email) {
+        return true
       }
     }
-    this.users.push(user)
+    return false
+  }
+
+  async save (user: User): Promise<void> {
+    const exists = await this.exists(user.email)
+    if (!exists) {
+      this.users.push(user)
+    }
   }
 }

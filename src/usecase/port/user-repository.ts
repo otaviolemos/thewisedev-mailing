@@ -1,7 +1,8 @@
 import { User } from '../../domain/user'
 
 export interface UserRepository {
-  findAllUsers: () => User[]
-  findUserByEmail: (email: string) => User
-  add: (user: User) => Error
+  findAllUsers: () => Promise<User[]>
+  findUserByEmail: (email: string) => Promise<User>
+  save: (user: User) => Promise<void>
+  exists: (email: string) => Promise<boolean>
 }
