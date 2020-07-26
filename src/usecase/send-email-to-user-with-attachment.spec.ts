@@ -33,7 +33,7 @@ const attachments = [{
   contentType: 'text/plain'
 }]
 
-var mailInfo = {
+var mailOptions = {
   from: fromName + ' ' + fromEmail,
   to: toName + ' <' + toEmail + '>',
   subject: subject,
@@ -46,7 +46,7 @@ test('should email user with attachment', async () => {
   const data = new Uint8Array(Buffer.from('testing 1 2 3'))
   createFile(attachmentFilePath, data)
   const { sut } = makeSut()
-  const result = await sut.sendEmailToUserWithAttachment(mailInfo)
+  const result = await sut.sendEmailToUserWithAttachment(mailOptions)
   expect(result).toBeInstanceOf(Right)
   deleteFile(attachmentFilePath)
 })
@@ -54,7 +54,7 @@ test('should email user with attachment', async () => {
 test('should raise error when email service fails', async () => {
   const { sut, mailServiceStub } = makeSut()
   jest.spyOn(mailServiceStub, 'send').mockReturnValueOnce(Promise.resolve(false))
-  const result = await sut.sendEmailToUserWithAttachment(mailInfo)
+  const result = await sut.sendEmailToUserWithAttachment(mailOptions)
   expect(result.value).toBeInstanceOf(MailServiceError)
 })
 
