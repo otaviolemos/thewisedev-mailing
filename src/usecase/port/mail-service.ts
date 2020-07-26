@@ -1,3 +1,3 @@
 export interface MailService {
-  send: (mailOptions: Object) => boolean
+  send: (mailOptions: Object) => Promise<boolean>
 }

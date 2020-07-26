@@ -4,7 +4,7 @@ import * as fs from 'fs'
 
 const makeSut = (): SendEmailToUserWithAttachment => {
   class MailServiceStub implements MailService {
-    send (mailInfo: Object): boolean {
+    async send (mailInfo: Object): Promise<boolean> {
       return true
     }
   }
@@ -12,7 +12,7 @@ const makeSut = (): SendEmailToUserWithAttachment => {
   return new SendEmailToUserWithAttachment(mailServiceStub)
 }
 
-test('should email user with attachment', () => {
+test('should email user with attachment', async () => {
   const attachmentFilePath: string = 'test.txt'
   const data = new Uint8Array(Buffer.from('testing 1 2 3'))
   createFile(attachmentFilePath, data)
@@ -28,7 +28,7 @@ test('should email user with attachment', () => {
     }]
   }
   const sut = makeSut()
-  expect(sut.sendEmailToUserWithAttachment(mailInfo)).toBeTruthy()
+  expect(await sut.sendEmailToUserWithAttachment(mailInfo)).toBeTruthy()
   deleteFile(attachmentFilePath)
 })
 

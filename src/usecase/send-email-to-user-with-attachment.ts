@@ -3,7 +3,7 @@ import { MailService } from './port/mail-service'
 export class SendEmailToUserWithAttachment {
   constructor (public mailService: MailService) {}
 
-  sendEmailToUserWithAttachment (mailInfo: Object): boolean {
-    return this.mailService.send(mailInfo)
+  async sendEmailToUserWithAttachment (mailInfo: Object): Promise<boolean> {
+    return await this.mailService.send(mailInfo)
   }
 }
