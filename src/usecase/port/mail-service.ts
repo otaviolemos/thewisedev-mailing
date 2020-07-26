@@ -1,3 +1,13 @@
+
+export interface MailOptions {
+  from: string
+  to: string
+  subject: string
+  text: string
+  html: string
+  attachments: Object[]
+}
+
 export interface MailService {
-  send: (mailOptions: Object) => Promise<boolean>
+  send: (options: MailOptions) => Promise<boolean>
 }

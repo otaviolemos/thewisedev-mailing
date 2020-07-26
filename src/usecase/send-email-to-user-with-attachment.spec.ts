@@ -21,16 +21,25 @@ const makeSut = (): { sut: SendEmailToUserWithAttachment, mailServiceStub: MailS
 
 const attachmentFilePath: string = 'test.txt'
 
+const fromName = 'Test'
+const fromEmail = 'formEmail@gmail.com'
+const toName = 'Otávio Lemos'
+const toEmail = 'otaviolemos@gmail.com'
+const subject = 'Test e-mail'
+const emailBody = 'Hello world attachment test'
+const emailBodyHtml = '<b>Hello world attachment test HTML</b>'
+const attachments = [{
+  filename: attachmentFilePath,
+  contentType: 'text/plain'
+}]
+
 var mailInfo = {
-  from: 'Test <formEmail@gmail.com>',
-  to: 'Otávio Lemos <otaviolemos@gmail.com>',
-  subject: 'Attachment',
-  text: 'Hello world attachment test',
-  html: '<b>Hello world attachment test HTML</b>',
-  attachments: [{
-    filename: attachmentFilePath,
-    contentType: 'text/plain'
-  }]
+  from: fromName + ' ' + fromEmail,
+  to: toName + ' <' + toEmail + '>',
+  subject: subject,
+  text: emailBody,
+  html: emailBodyHtml,
+  attachments: attachments
 }
 
 test('should email user with attachment', async () => {
