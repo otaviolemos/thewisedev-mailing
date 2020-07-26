@@ -22,9 +22,9 @@ export class RegisterUserOnMailingList {
         await this.userRepository.save(u)
         return right(Result.ok())
       } else {
-        return left(new ExistingUserError('User already registered')) as Response
+        return left(new ExistingUserError('User already registered'))
       }
     }
-    return left(new InvalidParamError('Invalid user name or email.')) as Response
+    return left(new InvalidParamError('Invalid user name or email.'))
   }
 }

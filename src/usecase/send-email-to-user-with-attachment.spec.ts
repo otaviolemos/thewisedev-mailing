@@ -1,6 +1,8 @@
 import { SendEmailToUserWithAttachment } from './send-email-to-user-with-attachment'
 import { MailService } from './port/mail-service'
 import * as fs from 'fs'
+import { Right } from '../shared/result'
+import { MailServiceError } from './port/errors/mail-service-error'
 
 // todo: generalize sendEmail use case: make it receive:
 // fromName, fromEmail, toName, toEmail, subject, emailBody, emailBodyHtml, attachments?
@@ -35,14 +37,16 @@ test('should email user with attachment', async () => {
   const data = new Uint8Array(Buffer.from('testing 1 2 3'))
   createFile(attachmentFilePath, data)
   const { sut } = makeSut()
-  expect(await sut.sendEmailToUserWithAttachment(mailInfo)).toBeTruthy()
+  const result = await sut.sendEmailToUserWithAttachment(mailInfo)
+  expect(result).toBeInstanceOf(Right)
   deleteFile(attachmentFilePath)
 })
 
 test('should raise error when email service fails', async () => {
   const { sut, mailServiceStub } = makeSut()
   jest.spyOn(mailServiceStub, 'send').mockReturnValueOnce(Promise.resolve(false))
-  expect(await sut.sendEmailToUserWithAttachment(mailInfo)).toBeFalsy()
+  const result = await sut.sendEmailToUserWithAttachment(mailInfo)
+  expect(result.value).toBeInstanceOf(MailServiceError)
 })
 
 function createFile (name: string, data: Uint8Array): void {
