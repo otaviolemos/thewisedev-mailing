@@ -1,3 +1,5 @@
+// I'm commenting the test case because otherwise it will send an email everytime it runs ;)
+
 // import { NodemailerMailService } from './nodemailler-mail-service'
 
 // const attachmentFilePath: string = '../resources/test.txt'
