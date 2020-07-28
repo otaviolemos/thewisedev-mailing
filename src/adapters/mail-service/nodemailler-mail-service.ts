@@ -1,3 +1,28 @@
+import { MailService, MailOptions } from '../../usecase/port/mail-service'
+import config from '../../config/config'
+import * as nodemailer from 'nodemailer'
+
+// todo: move credentials to a file
+
+export class NodemailerMailService implements MailService {
+  async send (options: MailOptions): Promise<boolean> {
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: config.get('gmailcredentials.username'),
+        pass: config.get('gmailcredentials.password')
+      }
+    })
+
+    try {
+      await transporter.sendMail(options)
+    } catch (error) {
+      return error
+    }
+    return true
+  }
+}
+
 /* Error handling:
   transport.sendMail(message, function(error, response){
   if(error){

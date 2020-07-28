@@ -1,11 +1,7 @@
 import { SendEmailToUserWithAttachment } from './send-email-to-user-with-attachment'
 import { MailService } from './port/mail-service'
-import * as fs from 'fs'
 import { Right } from '../shared/result'
 import { MailServiceError } from './port/errors/mail-service-error'
-
-// todo: generalize sendEmail use case: make it receive:
-// fromName, fromEmail, toName, toEmail, subject, emailBody, emailBodyHtml, attachments?
 
 class MailServiceStub implements MailService {
   async send (mailInfo: Object): Promise<boolean> {
@@ -19,7 +15,7 @@ const makeSut = (): { sut: SendEmailToUserWithAttachment, mailServiceStub: MailS
   return { sut, mailServiceStub }
 }
 
-const attachmentFilePath: string = 'test.txt'
+const attachmentFilePath: string = '../resources/test.txt'
 
 const fromName = 'Test'
 const fromEmail = 'formEmail@gmail.com'
@@ -43,12 +39,9 @@ var mailOptions = {
 }
 
 test('should email user with attachment', async () => {
-  const data = new Uint8Array(Buffer.from('testing 1 2 3'))
-  createFile(attachmentFilePath, data)
   const { sut } = makeSut()
   const result = await sut.sendEmailToUserWithAttachment(mailOptions)
   expect(result).toBeInstanceOf(Right)
-  deleteFile(attachmentFilePath)
 })
 
 test('should raise error when email service fails', async () => {
@@ -57,11 +50,3 @@ test('should raise error when email service fails', async () => {
   const result = await sut.sendEmailToUserWithAttachment(mailOptions)
   expect(result.value).toBeInstanceOf(MailServiceError)
 })
-
-function createFile (name: string, data: Uint8Array): void {
-  fs.writeFileSync(name, data)
-}
-
-function deleteFile (name: string): void {
-  fs.unlinkSync(name)
-}
