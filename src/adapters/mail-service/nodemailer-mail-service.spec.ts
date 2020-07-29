@@ -1,5 +1,7 @@
 // I'm commenting the test case because otherwise it will send an email everytime it runs ;)
 
+// TODO: change test case to ethereal
+
 // for html attachment:
 // const attachments: [{
 //   filename: 'lista-tecnicos.html',

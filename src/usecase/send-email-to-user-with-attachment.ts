@@ -12,6 +12,6 @@ export class SendEmailToUserWithAttachment {
     if (sent) {
       return right(Result.ok())
     }
-    return left(new MailServiceError('Error trying to send e-mail'))
+    return left(new MailServiceError('Error trying to send e-mail.'))
   }
 }
