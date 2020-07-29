@@ -1,16 +1,13 @@
 import { MailService, MailOptions } from '../../usecase/port/mail-service'
-import config from '../../config/config'
 import * as nodemailer from 'nodemailer'
-
-// TODO: fix bug - attachment is not working
 
 export class NodemailerMailService implements MailService {
   async send (options: MailOptions): Promise<boolean> {
     const transporter = nodemailer.createTransport({
-      service: config.get('email.service'),
+      service: options.service,
       auth: {
-        user: config.get('email.username'),
-        pass: config.get('email.password')
+        user: options.username,
+        pass: options.password
       }
     })
 

@@ -1,5 +1,5 @@
 import { SendEmailToUserWithAttachment } from './send-email-to-user-with-attachment'
-import { MailService } from './port/mail-service'
+import { MailService, MailOptions } from './port/mail-service'
 import { Right } from '../shared/result'
 import { MailServiceError } from './port/errors/mail-service-error'
 
@@ -29,7 +29,10 @@ const attachments = [{
   contentType: 'text/plain'
 }]
 
-var mailOptions = {
+var mailOptions: MailOptions = {
+  service: 'test',
+  username: 'test',
+  password: 'test',
   from: fromName + ' ' + fromEmail,
   to: toName + ' <' + toEmail + '>',
   subject: subject,

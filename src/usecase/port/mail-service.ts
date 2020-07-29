@@ -1,5 +1,8 @@
 
 export interface MailOptions {
+  service: string
+  username: string
+  password: string
   from: string
   to: string
   subject: string
