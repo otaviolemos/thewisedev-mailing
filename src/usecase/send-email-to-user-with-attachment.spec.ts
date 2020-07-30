@@ -30,7 +30,8 @@ const attachments = [{
 }]
 
 var mailOptions: MailOptions = {
-  service: 'test',
+  host: 'test',
+  port: 867,
   username: 'test',
   password: 'test',
   from: fromName + ' ' + fromEmail,
