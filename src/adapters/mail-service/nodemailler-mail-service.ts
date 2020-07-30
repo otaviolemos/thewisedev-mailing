@@ -2,20 +2,22 @@ import { MailService, MailOptions } from '../../usecase/port/mail-service'
 import * as nodemailer from 'nodemailer'
 
 export class NodemailerMailService implements MailService {
-  async send (options: MailOptions): Promise<boolean> {
+  async send (options: MailOptions): Promise<any> {
     const transporter = nodemailer.createTransport({
-      service: options.service,
+      host: options.host,
+      port: options.port,
       auth: {
         user: options.username,
         pass: options.password
       }
     })
 
+    var info
     try {
-      await transporter.sendMail(options)
+      info = await transporter.sendMail(options)
     } catch (error) {
       return error
     }
-    return true
+    return info
   }
 }

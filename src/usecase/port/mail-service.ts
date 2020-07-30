@@ -1,6 +1,7 @@
 
 export interface MailOptions {
-  service: string
+  host: string
+  port: number
   username: string
   password: string
   from: string
@@ -12,5 +13,5 @@ export interface MailOptions {
 }
 
 export interface MailService {
-  send: (options: MailOptions) => Promise<boolean>
+  send: (options: MailOptions) => Promise<any>
 }

@@ -4,8 +4,8 @@ import { Right } from '../shared/result'
 import { MailServiceError } from './port/errors/mail-service-error'
 
 class MailServiceStub implements MailService {
-  async send (mailInfo: Object): Promise<boolean> {
-    return true
+  async send (mailInfo: Object): Promise<any> {
+    return 'my message'
   }
 }
 
@@ -49,7 +49,7 @@ test('should email user with attachment', async () => {
 
 test('should raise error when email service fails', async () => {
   const { sut, mailServiceStub } = makeSut()
-  jest.spyOn(mailServiceStub, 'send').mockReturnValueOnce(Promise.resolve(false))
+  jest.spyOn(mailServiceStub, 'send').mockReturnValueOnce(Promise.resolve(new Error()))
   const result = await sut.sendEmailToUserWithAttachment(mailOptions)
   expect(result.value).toBeInstanceOf(MailServiceError)
 })
