@@ -1,4 +1,4 @@
-// I'm commenting the test cases because otherwise it will send an email everytime it runs ;)
+// I'm commenting the test cases because otherwise it will send an email everytime it runs (and that takes time)
 
 // for html attachment:
 // const attachments: [{
