@@ -1,5 +1,6 @@
 import { UserRepository } from '../../usecase/port/user-repository'
 import { User } from '../../domain/user'
+import { UserNotFoundError } from '../../usecase/port/errors/user-not-found-error'
 
 export class InMemoryUserRepository implements UserRepository {
   users: User[] = []
@@ -18,17 +19,16 @@ export class InMemoryUserRepository implements UserRepository {
         return u
       }
     }
-    throw new Error('User not found.')
+    throw new UserNotFoundError('User not found.')
   }
 
   async exists (email: string): Promise<boolean> {
-    var u: User
-    for (u of this.users) {
-      if (u.email === email) {
-        return true
-      }
+    try {
+      await this.findUserByEmail(email)
+    } catch (error) {
+      return false
     }
-    return false
+    return true
   }
 
   async add (user: User): Promise<void> {

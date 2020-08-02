@@ -1,4 +1,4 @@
-export class UserNotFound extends Error {
+export class UserNotFoundError extends Error {
   constructor (message?: string) {
     super(message)
     Object.setPrototypeOf(this, new.target.prototype)
