@@ -1,6 +1,6 @@
-import { UserRepository } from '../../usecase/port/user-repository'
-import { User } from '../../domain/user'
-import { UserNotFoundError } from '../../usecase/port/errors/user-not-found-error'
+import { UserRepository } from '../../../usecase/port/user-repository'
+import { User } from '../../../domain/user'
+import { UserNotFoundError } from '../../../usecase/port/errors/user-not-found-error'
 
 export class InMemoryUserRepository implements UserRepository {
   users: User[] = []
