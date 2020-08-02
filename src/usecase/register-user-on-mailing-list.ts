@@ -16,9 +16,9 @@ export class RegisterUserOnMailingList {
 
   async registerUserOnMailingList (name: string, email: string): Promise<Response> {
     if (validString(name) && validString(email)) {
-      const u = new User(name, email)
       const exists = this.userRepository.exists(email)
       if (!(await exists).valueOf()) {
+        const u = new User(name, email)
         await this.userRepository.add(u)
         return right(Result.ok())
       } else {
