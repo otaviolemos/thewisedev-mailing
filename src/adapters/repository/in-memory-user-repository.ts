@@ -18,6 +18,7 @@ export class InMemoryUserRepository implements UserRepository {
         return u
       }
     }
+    throw new Error('User not found.')
   }
 
   async exists (email: string): Promise<boolean> {
