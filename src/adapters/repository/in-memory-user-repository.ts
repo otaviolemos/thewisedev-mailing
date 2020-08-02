@@ -30,7 +30,7 @@ export class InMemoryUserRepository implements UserRepository {
     return false
   }
 
-  async save (user: User): Promise<void> {
+  async add (user: User): Promise<void> {
     const exists = await this.exists(user.email)
     if (!exists) {
       this.users.push(user)
