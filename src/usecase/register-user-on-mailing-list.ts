@@ -19,7 +19,7 @@ export class RegisterUserOnMailingList {
       const u = new User(name, email)
       const exists = this.userRepository.exists(email)
       if (!(await exists).valueOf()) {
-        await this.userRepository.add(u)
+        await this.userRepository.save(u)
         return right(Result.ok())
       } else {
         return left(new ExistingUserError('User already registered'))
