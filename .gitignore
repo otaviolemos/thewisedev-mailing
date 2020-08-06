@@ -2,3 +2,4 @@ node_modules
 dist
 resources
 config
+globalConfig.json
