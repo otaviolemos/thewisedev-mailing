@@ -11,7 +11,7 @@ describe('User Mongo repository', () => {
   })
 
   beforeEach(async () => {
-    await MongoHelper.clearCollection('users')
+    MongoHelper.clearCollection('users')
   })
 
   test('should add user', async () => {
@@ -36,5 +36,20 @@ describe('User Mongo repository', () => {
   test('when user is not added, it should not exist', async () => {
     const sut = new MongodbUserRepository()
     expect(await sut.exists('any_email@mail.com')).toBeFalsy()
+  })
+
+  test('find all should return all added users', async () => {
+    const sut = new MongodbUserRepository()
+    await sut.add({
+      name: 'any_name',
+      email: 'any_email@mail.com'
+    })
+    await sut.add({
+      name: 'a_second_name',
+      email: 'a_second_email@mail.com'
+    })
+    const users = await sut.findAllUsers()
+    expect(users[0].name).toEqual('any_name')
+    expect(users[1].name).toEqual('a_second_name')
   })
 })
