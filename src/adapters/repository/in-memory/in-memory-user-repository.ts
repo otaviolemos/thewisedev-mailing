@@ -2,6 +2,9 @@ import { UserRepository } from '../../../usecase/port/user-repository'
 import { User } from '../../../domain/user'
 import { UserNotFoundError } from '../../../usecase/port/errors/user-not-found-error'
 
+// todo: return null instead of raising exception
+// todo: use this pattern consistently
+
 export class InMemoryUserRepository implements UserRepository {
   users: User[] = []
   constructor (users: User[]) {
