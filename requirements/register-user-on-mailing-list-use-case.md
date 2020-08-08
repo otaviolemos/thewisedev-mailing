@@ -6,5 +6,5 @@
 ## Exception - invalid e-mail provided
 1. System returns error
 
-## Exception - invlide name provided
+## Exception - invalid name provided
 1. System returns error
