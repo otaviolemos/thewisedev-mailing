@@ -1,6 +1,5 @@
 import { UserRepository } from '../../../usecase/port/user-repository'
 import { User } from '../../../domain/user'
-import { UserNotFoundError } from '../../../usecase/port/errors/user-not-found-error'
 
 // todo: return null instead of raising exception
 // todo: use this pattern consistently
@@ -22,13 +21,11 @@ export class InMemoryUserRepository implements UserRepository {
         return u
       }
     }
-    throw new UserNotFoundError('User not found.')
+    return null
   }
 
   async exists (email: string): Promise<boolean> {
-    try {
-      await this.findUserByEmail(email)
-    } catch (error) {
+    if (await this.findUserByEmail(email) == null) {
       return false
     }
     return true
