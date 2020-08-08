@@ -5,8 +5,6 @@ import { RegisterUserOnMailingList } from './register-user-on-mailing-list'
 import { InvalidParamError } from './errors/invalid-param-error'
 import { ExistingUserError } from './port/errors/existing-user-error'
 
-// todo: change all emails and names; remove my names and email ;)
-
 test('should register new user on mailing list with complete data', async () => {
   const username = 'any_name'
   const useremail = 'any_email@mail.com'

@@ -1,9 +1,6 @@
 import { UserRepository } from '../../../usecases/port/user-repository'
 import { User } from '../../../domain/user'
 
-// todo: return null instead of raising exception
-// todo: use this pattern consistently
-
 export class InMemoryUserRepository implements UserRepository {
   users: User[] = []
   constructor (users: User[]) {
