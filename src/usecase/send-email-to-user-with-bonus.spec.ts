@@ -1,4 +1,4 @@
-import { SendEmailToUserWithAttachment } from './send-email-to-user-with-attachment'
+import { SendEmailToUserWithBonus } from './send-email-to-user-with-bonus'
 import { MailService, MailOptions } from './port/mail-service'
 import { Right } from '../shared/result'
 import { MailServiceError } from './port/errors/mail-service-error'
@@ -9,9 +9,9 @@ class MailServiceStub implements MailService {
   }
 }
 
-const makeSut = (): { sut: SendEmailToUserWithAttachment, mailServiceStub: MailServiceStub } => {
+const makeSut = (): { sut: SendEmailToUserWithBonus, mailServiceStub: MailServiceStub } => {
   const mailServiceStub = new MailServiceStub()
-  const sut = new SendEmailToUserWithAttachment(mailServiceStub)
+  const sut = new SendEmailToUserWithBonus(mailServiceStub)
   return { sut, mailServiceStub }
 }
 

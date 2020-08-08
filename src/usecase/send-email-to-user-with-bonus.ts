@@ -4,7 +4,7 @@ import { Either, Result, right, left } from '../shared/result'
 
 type Response = Either<MailServiceError | Result<any>, Result<void>>
 
-export class SendEmailToUserWithAttachment {
+export class SendEmailToUserWithBonus {
   constructor (public mailService: MailService) {}
 
   async sendEmailToUserWithAttachment (options: MailOptions): Promise<Response> {
