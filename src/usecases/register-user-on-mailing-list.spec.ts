@@ -1,6 +1,6 @@
 import { User } from '../domain/user'
 import { UserRepository } from './port/user-repository'
-import { InMemoryUserRepository } from '../adapters/repository/in-memory/in-memory-user-repository'
+import { InMemoryUserRepository } from '../adapters/repositories/in-memory/in-memory-user-repository'
 import { RegisterUserOnMailingList } from './register-user-on-mailing-list'
 import { InvalidParamError } from './errors/invalid-param-error'
 import { ExistingUserError } from './port/errors/existing-user-error'

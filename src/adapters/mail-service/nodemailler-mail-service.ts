@@ -1,4 +1,4 @@
-import { MailService, MailOptions } from '../../usecase/port/mail-service'
+import { MailService, MailOptions } from '../../usecases/port/mail-service'
 import * as nodemailer from 'nodemailer'
 
 export class NodemailerMailService implements MailService {
