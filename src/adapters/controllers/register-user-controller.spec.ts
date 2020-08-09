@@ -1,8 +1,8 @@
-import { RegisterController } from './register-controller'
+import { RegisterUserController } from './register-user-controller'
 
-describe('Register Controller', () => {
+describe('Register User Controller', () => {
   test('should return 400 if no name is provided', () => {
-    const sut = new RegisterController()
+    const sut = new RegisterUserController()
     const httpRequest = {
       body: {
         email: 'any_email@mail.com'
