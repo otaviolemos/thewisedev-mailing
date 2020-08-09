@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 export class Result<T> {
   public isSuccess: boolean
   public isFailure: boolean
