@@ -1,4 +1,4 @@
-import { RegisterController } from './register'
+import { RegisterController } from './register-controller'
 
 describe('Register Controller', () => {
   test('should return 400 if no name is provided', () => {
