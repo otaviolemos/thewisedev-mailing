@@ -36,6 +36,16 @@ test('should not register new user with invalid email', async () => {
   expect(error.value).toBeInstanceOf(InvalidParamError)
 })
 
+test('should not register new user with undefined email', async () => {
+  const username = 'any_name'
+  let useremail: string
+  var users: User[] = []
+  const repo: UserRepository = new InMemoryUserRepository(users)
+  const sut = new RegisterUserOnMailingList(repo)
+  const error = await sut.registerUserOnMailingList(username, useremail)
+  expect(error.value).toBeInstanceOf(InvalidParamError)
+})
+
 test('should not register existing user on mailing list', async () => {
   const username = 'any_name'
   const useremail = 'any_email@mail.com'
