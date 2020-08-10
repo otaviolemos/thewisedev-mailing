@@ -2,6 +2,7 @@ import { RegisterUserController } from './register-user-controller'
 import { MissingParamError } from './errors/missing-param-error'
 import { InvalidParamError } from './errors/invalid-param-error'
 import { EmailValidator } from './ports/email-validator'
+import { ServerError } from './errors/server-error'
 
 interface SutType {
   sut: RegisterUserController
@@ -69,5 +70,24 @@ describe('Register User Controller', () => {
     }
     sut.handle(httpRequest)
     expect(isValidSpy).toHaveBeenCalledWith('any_email@mail.com')
+  })
+
+  test('should return 500 if email validator throws', () => {
+    class EmailValidatorStub {
+      isValid (email: string): boolean {
+        throw new Error()
+      }
+    }
+    const emailValidatorStub = new EmailValidatorStub()
+    const sut = new RegisterUserController(emailValidatorStub)
+    const httpRequest = {
+      body: {
+        name: 'any_name',
+        email: 'any_email@mail.com'
+      }
+    }
+    const httpResponse = sut.handle(httpRequest)
+    expect(httpResponse.statusCode).toBe(500)
+    expect(httpResponse.body).toEqual(new ServerError())
   })
 })
