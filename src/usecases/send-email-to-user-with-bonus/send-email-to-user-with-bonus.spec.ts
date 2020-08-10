@@ -1,7 +1,7 @@
 import { SendEmailToUserWithBonus } from './send-email-to-user-with-bonus'
-import { MailService, MailOptions } from './ports/mail-service'
-import { Right } from '../shared/result'
-import { MailServiceError } from './ports/errors/mail-service-error'
+import { MailService, MailOptions } from '../ports/mail-service'
+import { Right } from '../../shared/result'
+import { MailServiceError } from '../ports/errors/mail-service-error'
 
 class MailServiceStub implements MailService {
   async send (mailInfo: Object): Promise<any> {

@@ -1,9 +1,9 @@
-import { User } from '../domain/user'
-import { UserRepository } from './ports/user-repository'
-import { InvalidParamError } from './errors/invalid-param-error'
-import { Either, Result, left, right } from '../shared/result'
-import { ExistingUserError } from './ports/errors/existing-user-error'
-import { validString } from '../shared/util'
+import { User } from '../../domain/user'
+import { UserRepository } from '../ports/user-repository'
+import { InvalidParamError } from '../errors/invalid-param-error'
+import { Either, Result, left, right } from '../../shared/result'
+import { ExistingUserError } from '../ports/errors/existing-user-error'
+import { validString } from '../../shared/util'
 
 type Response = Either<InvalidParamError | ExistingUserError | Result<any>, Result<void>>
 

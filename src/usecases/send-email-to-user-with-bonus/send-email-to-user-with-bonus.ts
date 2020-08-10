@@ -1,6 +1,6 @@
-import { MailService, MailOptions } from './ports/mail-service'
-import { MailServiceError } from './ports/errors/mail-service-error'
-import { Either, Result, right, left } from '../shared/result'
+import { MailService, MailOptions } from '../ports/mail-service'
+import { MailServiceError } from '../ports/errors/mail-service-error'
+import { Either, Result, right, left } from '../../shared/result'
 
 type Response = Either<MailServiceError | Result<any>, Result<void>>
 

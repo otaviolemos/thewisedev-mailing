@@ -1,9 +1,9 @@
-import { User } from '../domain/user'
-import { UserRepository } from './ports/user-repository'
-import { InMemoryUserRepository } from '../adapters/repositories/in-memory/in-memory-user-repository'
+import { User } from '../../domain/user'
+import { UserRepository } from '../ports/user-repository'
+import { InMemoryUserRepository } from '../../adapters/repositories/in-memory/in-memory-user-repository'
 import { RegisterUserOnMailingList } from './register-user-on-mailing-list'
-import { InvalidParamError } from './errors/invalid-param-error'
-import { ExistingUserError } from './ports/errors/existing-user-error'
+import { InvalidParamError } from '../errors/invalid-param-error'
+import { ExistingUserError } from '../ports/errors/existing-user-error'
 
 test('should register new user on mailing list with complete data', async () => {
   const username = 'any_name'
