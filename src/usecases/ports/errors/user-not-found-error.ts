@@ -1,6 +1,6 @@
 export class UserNotFoundError extends Error {
-  constructor (message?: string) {
-    super(message)
-    Object.setPrototypeOf(this, new.target.prototype)
+  constructor () {
+    super('User not found.')
+    this.name = 'UserNotFoundError'
   }
 }
