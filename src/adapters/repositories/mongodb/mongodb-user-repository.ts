@@ -1,4 +1,4 @@
-import { UserRepository } from '../../../usecases/port/user-repository'
+import { UserRepository } from '../../../usecases/ports/user-repository'
 import { User } from '../../../domain/user'
 import { MongoHelper } from './helpers/mongo-helper'
 
