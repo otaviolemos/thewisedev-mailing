@@ -1,5 +1,7 @@
+import { HttpRequest, HttpResponse } from './ports/http'
+
 export class RegisterUserController {
-  handle (httpRequest: any): any {
+  handle (httpRequest: HttpRequest): HttpResponse {
     if (!httpRequest.body.name) {
       return {
         statusCode: 400,
