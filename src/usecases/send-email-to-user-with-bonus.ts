@@ -7,11 +7,11 @@ type Response = Either<MailServiceError | Result<any>, Result<void>>
 export class SendEmailToUserWithBonus {
   constructor (public mailService: MailService) {}
 
-  async sendEmailToUserWithAttachment (options: MailOptions): Promise<Response> {
+  async sendEmailToUserWithBonus (options: MailOptions): Promise<Response> {
     const sent = await this.mailService.send(options)
     if (!(sent instanceof Error)) {
       return right(Result.ok())
     }
-    return left(new MailServiceError('Error trying to send e-mail.'))
+    return left(new MailServiceError())
   }
 }

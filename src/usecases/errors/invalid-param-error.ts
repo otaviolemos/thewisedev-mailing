@@ -1,6 +1,6 @@
 export class InvalidParamError extends Error {
-  constructor (message?: string) {
-    super(message)
-    Object.setPrototypeOf(this, new.target.prototype)
+  constructor (paramName: string) {
+    super('Invalid param: ' + paramName)
+    this.name = 'InvalidParamError'
   }
 }

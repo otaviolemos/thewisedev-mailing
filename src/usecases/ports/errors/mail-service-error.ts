@@ -1,6 +1,6 @@
 export class MailServiceError extends Error {
-  constructor (message?: string) {
-    super(message)
-    Object.setPrototypeOf(this, new.target.prototype)
+  constructor () {
+    super('Mail service error.')
+    this.name = 'MailServiceError'
   }
 }

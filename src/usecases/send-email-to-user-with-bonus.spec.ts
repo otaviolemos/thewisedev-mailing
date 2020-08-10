@@ -44,13 +44,13 @@ var mailOptions: MailOptions = {
 
 test('should email user with attachment', async () => {
   const { sut } = makeSut()
-  const result = await sut.sendEmailToUserWithAttachment(mailOptions)
+  const result = await sut.sendEmailToUserWithBonus(mailOptions)
   expect(result).toBeInstanceOf(Right)
 })
 
 test('should raise error when email service fails', async () => {
   const { sut, mailServiceStub } = makeSut()
   jest.spyOn(mailServiceStub, 'send').mockReturnValueOnce(Promise.resolve(new Error()))
-  const result = await sut.sendEmailToUserWithAttachment(mailOptions)
+  const result = await sut.sendEmailToUserWithBonus(mailOptions)
   expect(result.value).toBeInstanceOf(MailServiceError)
 })
