@@ -1,9 +1,13 @@
 import { RegisterUserController } from './register-user-controller'
 import { MissingParamError } from './errors/missing-param-error'
 
+const makeSut = (): RegisterUserController => {
+  return new RegisterUserController()
+}
+
 describe('Register User Controller', () => {
   test('should return 400 if no name is provided', () => {
-    const sut = new RegisterUserController()
+    const sut = makeSut()
     const httpRequest = {
       body: {
         email: 'any_email@mail.com'
@@ -15,7 +19,7 @@ describe('Register User Controller', () => {
   })
 
   test('should return 400 if no email is provided', () => {
-    const sut = new RegisterUserController()
+    const sut = makeSut()
     const httpRequest = {
       body: {
         name: 'any_name'
