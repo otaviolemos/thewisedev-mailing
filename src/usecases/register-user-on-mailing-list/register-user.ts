@@ -1,5 +1,6 @@
 import { Response } from './response'
+import { User } from '../../domain/user'
 
 export interface RegisterUser {
-  registerUserOnMailingList: (name: string, email: string) => Promise<Response>
+  registerUserOnMailingList: (user: User) => Promise<Response>
 }

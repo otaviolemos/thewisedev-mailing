@@ -3,6 +3,7 @@ import { MissingParamError, InvalidParamError } from './errors'
 import { badRequest, serverError } from './helpers/http-helper'
 import { EmailValidator } from './ports/email-validator'
 import { RegisterUser } from '../../../usecases/register-user-on-mailing-list/register-user'
+import { User } from '../../../domain/user'
 
 export class RegisterUserController {
   private readonly emailValidator: EmailValidator
@@ -24,7 +25,7 @@ export class RegisterUserController {
       if (!isValid) {
         return badRequest(new InvalidParamError('email'))
       }
-      await this.registerUser.registerUserOnMailingList(httpRequest.body.name, httpRequest.body.email)
+      await this.registerUser.registerUserOnMailingList(new User(httpRequest.body.name, httpRequest.body.email))
     } catch (error) {
       return serverError()
     }

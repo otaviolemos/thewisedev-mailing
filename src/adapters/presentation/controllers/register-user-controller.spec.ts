@@ -4,6 +4,7 @@ import { EmailValidator } from './ports/email-validator'
 import { Result, Either, right } from '../../../shared/result'
 import { ExistingUserError } from '../../../usecases/ports/errors/existing-user-error'
 import { RegisterUser } from '../../../usecases/register-user-on-mailing-list/register-user'
+import { User } from '../../../domain/user'
 
 interface SutType {
   sut: RegisterUserController
@@ -24,7 +25,7 @@ const makeEmailValidator = (): EmailValidator => {
 
 const makeRegisterUser = (): RegisterUser => {
   class RegisterUserOnMailingListStub implements RegisterUser {
-    async registerUserOnMailingList (name: string, email: string): Promise<Response> {
+    async registerUserOnMailingList (user: User): Promise<Response> {
       return await Promise.resolve(right(Result.ok()))
     }
   }
@@ -116,6 +117,9 @@ describe('Register User Controller', () => {
       }
     }
     await sut.handle(httpRequest)
-    expect(registerSpy).toHaveBeenCalledWith('any_name', 'any_email@mail.com')
+    expect(registerSpy).toHaveBeenCalledWith({
+      name: 'any_name',
+      email: 'any_email@mail.com'
+    })
   })
 })

@@ -11,7 +11,7 @@ test('should register new user on mailing list with complete data', async () => 
   var users: User[] = []
   const repo: UserRepository = new InMemoryUserRepository(users)
   const sut = new RegisterUserOnMailingList(repo)
-  await sut.registerUserOnMailingList(username, useremail)
+  await sut.registerUserOnMailingList(new User(username, useremail))
   const user = repo.findUserByEmail(useremail)
   expect((await user).email).toEqual('any_email@mail.com')
 })
@@ -22,7 +22,7 @@ test('should not register new user with invalid name', async () => {
   var users: User[] = []
   const repo: UserRepository = new InMemoryUserRepository(users)
   const sut = new RegisterUserOnMailingList(repo)
-  const error = await sut.registerUserOnMailingList(username, useremail)
+  const error = await sut.registerUserOnMailingList(new User(username, useremail))
   expect(error.value).toBeInstanceOf(InvalidParamError)
 })
 
@@ -32,7 +32,7 @@ test('should not register new user with invalid email', async () => {
   var users: User[] = []
   const repo: UserRepository = new InMemoryUserRepository(users)
   const sut = new RegisterUserOnMailingList(repo)
-  const error = await sut.registerUserOnMailingList(username, useremail)
+  const error = await sut.registerUserOnMailingList(new User(username, useremail))
   expect(error.value).toBeInstanceOf(InvalidParamError)
 })
 
@@ -42,7 +42,7 @@ test('should not register new user with undefined email', async () => {
   var users: User[] = []
   const repo: UserRepository = new InMemoryUserRepository(users)
   const sut = new RegisterUserOnMailingList(repo)
-  const error = await sut.registerUserOnMailingList(username, useremail)
+  const error = await sut.registerUserOnMailingList(new User(username, useremail))
   expect(error.value).toBeInstanceOf(InvalidParamError)
 })
 
@@ -52,6 +52,6 @@ test('should not register existing user on mailing list', async () => {
   const users: User[] = [new User(username, useremail)]
   const repo: UserRepository = new InMemoryUserRepository(users)
   const sut = new RegisterUserOnMailingList(repo)
-  const error = await sut.registerUserOnMailingList(username, useremail)
+  const error = await sut.registerUserOnMailingList(new User(username, useremail))
   expect(error.value).toBeInstanceOf(ExistingUserError)
 })

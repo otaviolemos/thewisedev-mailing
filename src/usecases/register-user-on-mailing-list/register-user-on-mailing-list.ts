@@ -14,18 +14,17 @@ export class RegisterUserOnMailingList implements RegisterUser {
     this.userRepository = userRepo
   }
 
-  async registerUserOnMailingList (name: string, email: string): Promise<Response> {
-    if (validString(name) && validString(email)) {
-      const exists = this.userRepository.exists(email)
+  async registerUserOnMailingList (user: User): Promise<Response> {
+    if (validString(user.name) && validString(user.email)) {
+      const exists = this.userRepository.exists(user.email)
       if (!(await exists).valueOf()) {
-        const u = new User(name, email)
-        await this.userRepository.add(u)
+        await this.userRepository.add(user)
         return right(Result.ok())
       } else {
         return left(new ExistingUserError())
       }
     }
-    return validString(name) ? left(new InvalidParamError('name'))
+    return validString(user.name) ? left(new InvalidParamError('name'))
       : left(new InvalidParamError('email'))
   }
 }
