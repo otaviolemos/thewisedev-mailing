@@ -18,9 +18,9 @@ const makeSut = (): { sut: SendEmailToUserWithBonus, mailServiceStub: MailServic
 const attachmentFilePath: string = '../resources/test.txt'
 
 const fromName = 'Test'
-const fromEmail = 'formEmail@gmail.com'
-const toName = 'Otávio Lemos'
-const toEmail = 'otaviolemos@gmail.com'
+const fromEmail = 'fromEmail@mail.com'
+const toName = 'any_name'
+const toEmail = 'any_email@mail.com'
 const subject = 'Test e-mail'
 const emailBody = 'Hello world attachment test'
 const emailBodyHtml = '<b>Hello world attachment test HTML</b>'
