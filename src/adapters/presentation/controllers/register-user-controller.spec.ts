@@ -1,14 +1,20 @@
 import { RegisterUserController } from './register-user-controller'
 import { MissingParamError, InvalidParamError, ServerError } from './errors'
 import { EmailValidator } from './ports/email-validator'
+import { Result, Either, right } from '../../../shared/result'
+import { ExistingUserError } from '../../../usecases/ports/errors/existing-user-error'
+import { RegisterUser } from '../../../usecases/register-user-on-mailing-list/register-user'
 
 interface SutType {
   sut: RegisterUserController
   emailValidatorStub: EmailValidator
+  registerUserStub: RegisterUser
 }
 
+type Response = Either<InvalidParamError | ExistingUserError | Result<any>, Result<void>>
+
 const makeEmailValidator = (): EmailValidator => {
-  class EmailValidatorStub {
+  class EmailValidatorStub implements EmailValidator {
     isValid (email: string): boolean {
       return true
     }
@@ -16,38 +22,48 @@ const makeEmailValidator = (): EmailValidator => {
   return new EmailValidatorStub()
 }
 
+const makeRegisterUser = (): RegisterUser => {
+  class RegisterUserOnMailingListStub implements RegisterUser {
+    async registerUserOnMailingList (name: string, email: string): Promise<Response> {
+      return await Promise.resolve(right(Result.ok()))
+    }
+  }
+  return new RegisterUserOnMailingListStub()
+}
+
 const makeSut = (): SutType => {
   const emailValidatorStub = makeEmailValidator()
-  const sut = new RegisterUserController(emailValidatorStub)
-  return { sut, emailValidatorStub }
+  const registerUserStub = makeRegisterUser()
+  const sut = new RegisterUserController(emailValidatorStub, registerUserStub)
+  return { sut, emailValidatorStub, registerUserStub }
 }
 
 describe('Register User Controller', () => {
-  test('should return 400 if no name is provided', () => {
+  test('should return 400 if no name is provided', async () => {
     const { sut } = makeSut()
     const httpRequest = {
       body: {
         email: 'any_email@mail.com'
       }
     }
-    const httpResponse = sut.handle(httpRequest)
+    const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(400)
     expect(httpResponse.body).toEqual(new MissingParamError('name'))
   })
 
-  test('should return 400 if no email is provided', () => {
+  test('should return 400 if no email is provided', async () => {
     const { sut } = makeSut()
     const httpRequest = {
       body: {
         name: 'any_name'
       }
     }
-    const httpResponse = sut.handle(httpRequest)
+    const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(400)
     expect(httpResponse.body).toEqual(new MissingParamError('email'))
   })
 
-  test('should return 400 if an invalid email is provided', () => {
+  test('should return 400 if an invalid email is provided', async () => {
     const { sut, emailValidatorStub } = makeSut()
     jest.spyOn(emailValidatorStub, 'isValid').mockReturnValueOnce(false)
     const httpRequest = {
@@ -56,12 +72,12 @@ describe('Register User Controller', () => {
         email: 'invalid_email@mail.com'
       }
     }
-    const httpResponse = sut.handle(httpRequest)
+    const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(400)
     expect(httpResponse.body).toEqual(new InvalidParamError('email'))
   })
 
-  test('should call email validator with correct email', () => {
+  test('should call email validator with correct email', async () => {
     const { sut, emailValidatorStub } = makeSut()
     const isValidSpy = jest.spyOn(emailValidatorStub, 'isValid')
     const httpRequest = {
@@ -70,11 +86,11 @@ describe('Register User Controller', () => {
         email: 'any_email@mail.com'
       }
     }
-    sut.handle(httpRequest)
+    await sut.handle(httpRequest)
     expect(isValidSpy).toHaveBeenCalledWith('any_email@mail.com')
   })
 
-  test('should return 500 if email validator throws', () => {
+  test('should return 500 if email validator throws', async () => {
     const { sut, emailValidatorStub } = makeSut()
     jest.spyOn(emailValidatorStub, 'isValid').mockImplementationOnce(() => {
       throw new Error()
@@ -85,8 +101,21 @@ describe('Register User Controller', () => {
         email: 'any_email@mail.com'
       }
     }
-    const httpResponse = sut.handle(httpRequest)
+    const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(500)
     expect(httpResponse.body).toEqual(new ServerError())
+  })
+
+  test('should call RegisterUserOnMailingList with correct values', async () => {
+    const { sut, registerUserStub } = makeSut()
+    const registerSpy = jest.spyOn(registerUserStub, 'registerUserOnMailingList')
+    const httpRequest = {
+      body: {
+        name: 'any_name',
+        email: 'any_email@mail.com'
+      }
+    }
+    await sut.handle(httpRequest)
+    expect(registerSpy).toHaveBeenCalledWith('any_name', 'any_email@mail.com')
   })
 })
