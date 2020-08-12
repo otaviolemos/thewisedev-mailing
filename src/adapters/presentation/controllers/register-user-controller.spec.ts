@@ -107,7 +107,7 @@ describe('Register User Controller', () => {
     expect(httpResponse.body).toEqual(new ServerError())
   })
 
-  test('should call RegisterUserOnMailingList with correct values', async () => {
+  test('should call RegisterUserOnMailingList with correct values and return 200', async () => {
     const { sut, registerUserStub } = makeSut()
     const registerSpy = jest.spyOn(registerUserStub, 'registerUserOnMailingList')
     const httpRequest = {
@@ -116,10 +116,40 @@ describe('Register User Controller', () => {
         email: 'any_email@mail.com'
       }
     }
-    await sut.handle(httpRequest)
+    const response = await sut.handle(httpRequest)
     expect(registerSpy).toHaveBeenCalledWith({
       name: 'any_name',
       email: 'any_email@mail.com'
     })
+    expect(response.statusCode).toEqual(200)
   })
+
+  // test('should call SendEmail with correct values and return 200', async () => {
+  //   const { sut, sendEmailStub } = makeSut()
+  //   const sendEmailSpy = jest.spyOn(sendEmailStub, 'sendEmailToUserWithBonus')
+  //   const httpRequest = {
+  //     body: {
+  //       name: 'any_name',
+  //       email: 'any_email@mail.com'
+  //     }
+  //   }
+  //   const response = await sut.handle(httpRequest)
+  //   const attachments = [{
+  //     filename: 'any_filename',
+  //     path: 'any_path'
+  //   }]
+  //   expect(sendEmailSpy).toHaveBeenCalledWith({
+  //     host: 'test',
+  //     port: 867,
+  //     username: 'test',
+  //     password: 'test',
+  //     from: 'from_name' + ' ' + 'from_email@mail.com',
+  //     to: 'any_name' + ' <' + 'any_email@mail.com' + '>',
+  //     subject: 'subject',
+  //     text: 'emailBody',
+  //     html: 'emailBodyHtml',
+  //     attachments: attachments
+  //   })
+  //   expect(response.statusCode).toEqual(200)
+  // })
 })
