@@ -31,7 +31,7 @@ export class RegisterUserController {
       const user = new User(httpRequest.body.name, httpRequest.body.email)
       const registerRet = await this.registerUser.registerUserOnMailingList(user)
       const sendEmailToUserRet = await this.sendEmailToUser.sendEmailToUserWithBonus(user)
-      if (registerRet.isRight() && sendEmailToUserRet.isRight) {
+      if (registerRet.isRight() && sendEmailToUserRet.isRight()) {
         return {
           statusCode: 200,
           body: user
