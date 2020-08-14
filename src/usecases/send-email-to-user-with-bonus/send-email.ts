@@ -1,6 +1,6 @@
-import { MailOptions } from '../ports/mail-service'
 import { SendEmailResponse } from './send-email-response'
+import { User } from '../../domain/user'
 
 export interface SendEmail {
-  sendEmailToUserWithBonus: (options: MailOptions) => Promise<SendEmailResponse>
+  sendEmailToUserWithBonus: (user: User) => Promise<SendEmailResponse>
 }
