@@ -4,13 +4,16 @@ import { badRequest, serverError } from './helpers/http-helper'
 import { EmailValidator } from './ports/email-validator'
 import { RegisterUser } from '../../../usecases/register-user-on-mailing-list/register-user'
 import { User } from '../../../domain/user'
+import { SendEmail } from '../../../usecases/send-email-to-user-with-bonus/send-email'
 
 export class RegisterUserController {
   private readonly emailValidator: EmailValidator
   private readonly registerUser: RegisterUser
-  constructor (emailValidator: EmailValidator, registerUser: RegisterUser) {
+  private readonly sendEmailToUser: SendEmail
+  constructor (emailValidator: EmailValidator, registerUser: RegisterUser, sendEmailToUser: SendEmail) {
     this.emailValidator = emailValidator
     this.registerUser = registerUser
+    this.sendEmailToUser = sendEmailToUser
   }
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
@@ -27,7 +30,8 @@ export class RegisterUserController {
       }
       const user = new User(httpRequest.body.name, httpRequest.body.email)
       const registerRet = await this.registerUser.registerUserOnMailingList(user)
-      if (registerRet.isRight()) {
+      const sendEmailToUserRet = await this.sendEmailToUser.sendEmailToUserWithBonus(user)
+      if (registerRet.isRight() && sendEmailToUserRet.isRight) {
         return {
           statusCode: 200,
           body: user
