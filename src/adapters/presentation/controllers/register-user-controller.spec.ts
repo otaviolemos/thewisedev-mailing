@@ -5,11 +5,13 @@ import { Result, Either, right } from '../../../shared/result'
 import { ExistingUserError } from '../../../usecases/ports/errors/existing-user-error'
 import { RegisterUser } from '../../../usecases/register-user-on-mailing-list/register-user'
 import { User } from '../../../domain/user'
+import { SendEmail } from '../../../usecases/send-email-to-user-with-bonus/send-email'
 
 interface SutType {
   sut: RegisterUserController
   emailValidatorStub: EmailValidator
   registerUserStub: RegisterUser
+  sendEmailToUserStub: SendEmail
 }
 
 type Response = Either<InvalidParamError | ExistingUserError | Result<any>, Result<void>>
@@ -32,11 +34,21 @@ const makeRegisterUser = (): RegisterUser => {
   return new RegisterUserOnMailingListStub()
 }
 
+const makeSendEmailToUser = (): SendEmail => {
+  class SendEmailToUserStub implements SendEmail {
+    async sendEmailToUserWithBonus (user: User): Promise<Response> {
+      return await Promise.resolve(right(Result.ok()))
+    }
+  }
+  return new SendEmailToUserStub()
+}
+
 const makeSut = (): SutType => {
   const emailValidatorStub = makeEmailValidator()
   const registerUserStub = makeRegisterUser()
-  const sut = new RegisterUserController(emailValidatorStub, registerUserStub)
-  return { sut, emailValidatorStub, registerUserStub }
+  const sendEmailToUserStub = makeSendEmailToUser()
+  const sut = new RegisterUserController(emailValidatorStub, registerUserStub, sendEmailToUserStub)
+  return { sut, emailValidatorStub, registerUserStub, sendEmailToUserStub }
 }
 
 describe('Register User Controller', () => {
@@ -118,6 +130,23 @@ describe('Register User Controller', () => {
     }
     const response = await sut.handle(httpRequest)
     expect(registerSpy).toHaveBeenCalledWith({
+      name: 'any_name',
+      email: 'any_email@mail.com'
+    })
+    expect(response.statusCode).toEqual(200)
+  })
+
+  test('should call SendEmailToUserWithBonus with correct values and return 200', async () => {
+    const { sut, sendEmailToUserStub } = makeSut()
+    const sendEmailSpy = jest.spyOn(sendEmailToUserStub, 'sendEmailToUserWithBonus')
+    const httpRequest = {
+      body: {
+        name: 'any_name',
+        email: 'any_email@mail.com'
+      }
+    }
+    const response = await sut.handle(httpRequest)
+    expect(sendEmailSpy).toHaveBeenCalledWith({
       name: 'any_name',
       email: 'any_email@mail.com'
     })
