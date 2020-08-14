@@ -1,11 +1,12 @@
 import { RegisterUserController } from './register-user-controller'
 import { MissingParamError, InvalidParamError, ServerError } from './errors'
 import { EmailValidator } from './ports/email-validator'
-import { Result, Either, right } from '../../../shared/result'
-import { ExistingUserError } from '../../../usecases/ports/errors/existing-user-error'
+import { Result, right } from '../../../shared/result'
 import { RegisterUser } from '../../../usecases/register-user-on-mailing-list/register-user'
 import { User } from '../../../domain/user'
 import { SendEmail } from '../../../usecases/send-email-to-user-with-bonus/send-email'
+import { RegisterUserResponse } from '../../../usecases/register-user-on-mailing-list/register-user-response'
+import { SendEmailResponse } from '../../../usecases/send-email-to-user-with-bonus/send-email-response'
 
 interface SutType {
   sut: RegisterUserController
@@ -13,8 +14,6 @@ interface SutType {
   registerUserStub: RegisterUser
   sendEmailToUserStub: SendEmail
 }
-
-type Response = Either<InvalidParamError | ExistingUserError | Result<any>, Result<void>>
 
 const makeEmailValidator = (): EmailValidator => {
   class EmailValidatorStub implements EmailValidator {
@@ -27,7 +26,7 @@ const makeEmailValidator = (): EmailValidator => {
 
 const makeRegisterUser = (): RegisterUser => {
   class RegisterUserOnMailingListStub implements RegisterUser {
-    async registerUserOnMailingList (user: User): Promise<Response> {
+    async registerUserOnMailingList (user: User): Promise<RegisterUserResponse> {
       return await Promise.resolve(right(Result.ok()))
     }
   }
@@ -36,7 +35,7 @@ const makeRegisterUser = (): RegisterUser => {
 
 const makeSendEmailToUser = (): SendEmail => {
   class SendEmailToUserStub implements SendEmail {
-    async sendEmailToUserWithBonus (user: User): Promise<Response> {
+    async sendEmailToUserWithBonus (user: User): Promise<SendEmailResponse> {
       return await Promise.resolve(right(Result.ok()))
     }
   }
@@ -153,9 +152,9 @@ describe('Register User Controller', () => {
     expect(response.statusCode).toEqual(200)
   })
 
-  // test('should call SendEmail with correct values and return 200', async () => {
-  //   const { sut, sendEmailStub } = makeSut()
-  //   const sendEmailSpy = jest.spyOn(sendEmailStub, 'sendEmailToUserWithBonus')
+  // test('should return 200 with RegisterError if fails to register', async () => {
+  //   const { sut, registerUserStub } = makeSut()
+  //   const registerSpy = jest.spyOn(registerUserStub, 'registerUserOnMailingList').mockReturnValue(Promise.resolve(new ExistingUserError())))
   //   const httpRequest = {
   //     body: {
   //       name: 'any_name',
@@ -163,21 +162,9 @@ describe('Register User Controller', () => {
   //     }
   //   }
   //   const response = await sut.handle(httpRequest)
-  //   const attachments = [{
-  //     filename: 'any_filename',
-  //     path: 'any_path'
-  //   }]
-  //   expect(sendEmailSpy).toHaveBeenCalledWith({
-  //     host: 'test',
-  //     port: 867,
-  //     username: 'test',
-  //     password: 'test',
-  //     from: 'from_name' + ' ' + 'from_email@mail.com',
-  //     to: 'any_name' + ' <' + 'any_email@mail.com' + '>',
-  //     subject: 'subject',
-  //     text: 'emailBody',
-  //     html: 'emailBodyHtml',
-  //     attachments: attachments
+  //   expect(registerSpy).toHaveBeenCalledWith({
+  //     name: 'any_name',
+  //     email: 'any_email@mail.com'
   //   })
   //   expect(response.statusCode).toEqual(200)
   // })
