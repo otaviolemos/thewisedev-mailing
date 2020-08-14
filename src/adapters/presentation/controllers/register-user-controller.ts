@@ -29,13 +29,11 @@ export class RegisterUserController {
         return badRequest(new InvalidParamError('email'))
       }
       const user = new User(httpRequest.body.name, httpRequest.body.email)
-      const registerRet = await this.registerUser.registerUserOnMailingList(user)
-      const sendEmailToUserRet = await this.sendEmailToUser.sendEmailToUserWithBonus(user)
-      if (registerRet.isRight() && sendEmailToUserRet.isRight()) {
-        return {
-          statusCode: 200,
-          body: user
-        }
+      await this.registerUser.registerUserOnMailingList(user)
+      await this.sendEmailToUser.sendEmailToUserWithBonus(user)
+      return {
+        statusCode: 200,
+        body: user
       }
     } catch (error) {
       return serverError()
