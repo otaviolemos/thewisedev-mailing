@@ -10,6 +10,7 @@ export class RegisterUserController {
   private readonly emailValidator: EmailValidator
   private readonly registerUser: RegisterUser
   private readonly sendEmailToUser: SendEmail
+
   constructor (emailValidator: EmailValidator, registerUser: RegisterUser, sendEmailToUser: SendEmail) {
     this.emailValidator = emailValidator
     this.registerUser = registerUser
