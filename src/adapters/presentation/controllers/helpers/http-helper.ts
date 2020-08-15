@@ -6,12 +6,12 @@ export const badRequest = (error: Error): HttpResponse => ({
   body: error
 })
 
-export const serverError = (): HttpResponse => ({
+export const serverError = (reason: string): HttpResponse => ({
   statusCode: 500,
-  body: new ServerError()
+  body: new ServerError(reason)
 })
 
-// export const mailError = (): HttpResponse => ({
+// export const emailError = (): HttpResponse => ({
 //   statusCode: 200,
 //   body: new EmailError()
 // })

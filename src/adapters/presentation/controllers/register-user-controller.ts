@@ -29,14 +29,22 @@ export class RegisterUserController {
         return badRequest(new InvalidParamError('email'))
       }
       const user = new User(httpRequest.body.name, httpRequest.body.email)
-      await this.registerUser.registerUserOnMailingList(user)
-      await this.sendEmailToUser.sendEmailToUserWithBonus(user)
+      try {
+        await this.registerUser.registerUserOnMailingList(user)
+      } catch (error) {
+        return serverError('registration')
+      }
+      try {
+        await this.sendEmailToUser.sendEmailToUserWithBonus(user)
+      } catch (error) {
+        return serverError('email')
+      }
       return {
         statusCode: 200,
         body: user
       }
     } catch (error) {
-      return serverError()
+      return serverError('internal')
     }
   }
 }
