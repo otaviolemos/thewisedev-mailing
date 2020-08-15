@@ -115,7 +115,7 @@ describe('Register User Controller', () => {
     }
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(500)
-    expect(httpResponse.body).toEqual(new ServerError())
+    expect((httpResponse.body as ServerError).message).toEqual('Server error: internal.')
   })
 
   test('should call RegisterUserOnMailingList with correct values and return 200', async () => {
@@ -152,20 +152,35 @@ describe('Register User Controller', () => {
     expect(response.statusCode).toEqual(200)
   })
 
-  // test('should return 200 with RegisterError if fails to register', async () => {
-  //   const { sut, registerUserStub } = makeSut()
-  //   const registerSpy = jest.spyOn(registerUserStub, 'registerUserOnMailingList').mockReturnValue(Promise.resolve(new ExistingUserError())))
-  //   const httpRequest = {
-  //     body: {
-  //       name: 'any_name',
-  //       email: 'any_email@mail.com'
-  //     }
-  //   }
-  //   const response = await sut.handle(httpRequest)
-  //   expect(registerSpy).toHaveBeenCalledWith({
-  //     name: 'any_name',
-  //     email: 'any_email@mail.com'
-  //   })
-  //   expect(response.statusCode).toEqual(200)
-  // })
+  test('should return 500 if register user throws', async () => {
+    const { sut, registerUserStub } = makeSut()
+    jest.spyOn(registerUserStub, 'registerUserOnMailingList').mockImplementation(() => {
+      throw new Error()
+    })
+    const httpRequest = {
+      body: {
+        name: 'any_name',
+        email: 'any_email@mail.com'
+      }
+    }
+    const response = await sut.handle(httpRequest)
+    expect(response.statusCode).toEqual(500)
+    expect((response.body as ServerError).message).toEqual('Server error: registration.')
+  })
+
+  test('should return 500 if send email user throws', async () => {
+    const { sut, sendEmailToUserStub } = makeSut()
+    jest.spyOn(sendEmailToUserStub, 'sendEmailToUserWithBonus').mockImplementation(() => {
+      throw new Error()
+    })
+    const httpRequest = {
+      body: {
+        name: 'any_name',
+        email: 'any_email@mail.com'
+      }
+    }
+    const response = await sut.handle(httpRequest)
+    expect(response.statusCode).toEqual(500)
+    expect((response.body as ServerError).message).toEqual('Server error: email.')
+  })
 })
