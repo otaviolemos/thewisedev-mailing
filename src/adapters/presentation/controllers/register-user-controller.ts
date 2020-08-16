@@ -1,6 +1,6 @@
 import { HttpRequest, HttpResponse } from './ports/http'
 import { MissingParamError, InvalidParamError } from './errors'
-import { badRequest, serverError } from './helpers/http-helper'
+import { badRequest, serverError, ok } from './helpers/http-helper'
 import { EmailValidator } from './ports/email-validator'
 import { RegisterUser } from '../../../usecases/register-user-on-mailing-list/register-user'
 import { User } from '../../../domain/user'
@@ -40,10 +40,7 @@ export class RegisterUserController {
       } catch (error) {
         return serverError('email')
       }
-      return {
-        statusCode: 200,
-        body: user
-      }
+      return ok(user)
     } catch (error) {
       return serverError('internal')
     }
