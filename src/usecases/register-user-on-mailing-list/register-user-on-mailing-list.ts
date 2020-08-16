@@ -3,7 +3,6 @@ import { UserRepository } from '../ports/user-repository'
 import { InvalidParamError } from '../errors/invalid-param-error'
 import { Result, left, right } from '../../shared/result'
 import { ExistingUserError } from '../ports/errors/existing-user-error'
-import { validString } from '../../shared/util'
 import { RegisterUser } from './register-user'
 import { RegisterUserResponse } from './register-user-response'
 
@@ -15,7 +14,7 @@ export class RegisterUserOnMailingList implements RegisterUser {
   }
 
   async registerUserOnMailingList (user: User): Promise<RegisterUserResponse> {
-    if (validString(user.name) && validString(user.email)) {
+    if (this.validateString(user.name) && this.validateString(user.email)) {
       const exists = this.userRepository.exists(user.email)
       if (!(await exists).valueOf()) {
         await this.userRepository.add(user)
@@ -24,7 +23,14 @@ export class RegisterUserOnMailingList implements RegisterUser {
         return left(new ExistingUserError())
       }
     }
-    return validString(user.name) ? left(new InvalidParamError('name'))
+    return this.validateString(user.name) ? left(new InvalidParamError('name'))
       : left(new InvalidParamError('email'))
+  }
+
+  private validateString (str: string): boolean {
+    if (str == null || str === '') {
+      return false
+    }
+    return true
   }
 }
