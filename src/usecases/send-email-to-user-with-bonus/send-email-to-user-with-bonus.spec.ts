@@ -1,5 +1,5 @@
 import { SendEmailToUserWithBonus } from './send-email-to-user-with-bonus'
-import { MailService, MailOptions } from '../ports/mail-service'
+import { EmailService, EmailOptions } from '../ports/email-service'
 import { Right } from '../../shared/result'
 import { MailServiceError } from '../ports/errors/mail-service-error'
 import { User } from '../../domain/user'
@@ -23,7 +23,7 @@ const attachments = [{
   contentType: 'text/plain'
 }]
 
-var mailOptions: MailOptions = {
+var mailOptions: EmailOptions = {
   host: 'test',
   port: 867,
   username: 'test',
@@ -36,8 +36,8 @@ var mailOptions: MailOptions = {
   attachments: attachments
 }
 
-class MailServiceStub implements MailService {
-  async send (mailInfo: MailOptions): Promise<any> {
+class MailServiceStub implements EmailService {
+  async send (mailInfo: EmailOptions): Promise<any> {
     return 'my message'
   }
 }

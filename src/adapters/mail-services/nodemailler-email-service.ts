@@ -1,8 +1,8 @@
-import { MailService, MailOptions } from '../../usecases/ports/mail-service'
+import { EmailService, EmailOptions } from '../../usecases/ports/email-service'
 import * as nodemailer from 'nodemailer'
 
-export class NodemailerMailService implements MailService {
-  async send (options: MailOptions): Promise<any> {
+export class NodemailerEmailService implements EmailService {
+  async send (options: EmailOptions): Promise<any> {
     const transporter = nodemailer.createTransport({
       host: options.host,
       port: options.port,

@@ -1,4 +1,4 @@
-import { MailService, MailOptions } from '../ports/mail-service'
+import { EmailService, EmailOptions } from '../ports/email-service'
 import { MailServiceError } from '../ports/errors/mail-service-error'
 import { SendEmailResponse } from './send-email-response'
 import { Result, right, left } from '../../shared/result'
@@ -6,9 +6,9 @@ import { SendEmail } from './send-email'
 import { User } from '../../domain/user'
 
 export class SendEmailToUserWithBonus implements SendEmail {
-  private readonly mailService: MailService
-  private readonly mailOptions: MailOptions
-  constructor (mailOptions: MailOptions, mailService: MailService) {
+  private readonly mailService: EmailService
+  private readonly mailOptions: EmailOptions
+  constructor (mailOptions: EmailOptions, mailService: EmailService) {
     this.mailOptions = mailOptions
     this.mailService = mailService
   }

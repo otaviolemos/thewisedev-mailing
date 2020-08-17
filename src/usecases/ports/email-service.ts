@@ -1,5 +1,5 @@
 
-export interface MailOptions {
+export interface EmailOptions {
   host: string
   port: number
   username: string
@@ -12,6 +12,6 @@ export interface MailOptions {
   attachments: Object[]
 }
 
-export interface MailService {
-  send: (options: MailOptions) => Promise<any>
+export interface EmailService {
+  send: (options: EmailOptions) => Promise<any>
 }
