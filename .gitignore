@@ -3,3 +3,4 @@ dist
 resources
 config
 globalConfig.json
+coverage
