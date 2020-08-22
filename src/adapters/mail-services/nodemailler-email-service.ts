@@ -12,9 +12,16 @@ export class NodemailerEmailService implements EmailService {
       }
     })
 
-    var info
+    var info = null
     try {
-      info = await transporter.sendMail(options)
+      info = await transporter.sendMail({
+        from: options.from,
+        to: options.to,
+        subject: options.subject,
+        text: options.text,
+        html: options.html,
+        attachments: options.attachments
+      })
     } catch (error) {
       return error
     }
