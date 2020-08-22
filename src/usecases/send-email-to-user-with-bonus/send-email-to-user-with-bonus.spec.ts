@@ -48,15 +48,17 @@ const makeSut = (): { sut: SendEmailToUserWithBonus, mailServiceStub: MailServic
   return { sut, mailServiceStub }
 }
 
-test('should email user with attachment', async () => {
-  const { sut } = makeSut()
-  const result = await sut.sendEmailToUserWithBonus(new User(toName, toEmail))
-  expect(result).toBeInstanceOf(Right)
-})
+describe('Send email to user with bonus use case', () => {
+  test('should email user with attachment', async () => {
+    const { sut } = makeSut()
+    const result = await sut.sendEmailToUserWithBonus(new User(toName, toEmail))
+    expect(result).toBeInstanceOf(Right)
+  })
 
-test('should raise error when email service fails', async () => {
-  const { sut, mailServiceStub } = makeSut()
-  jest.spyOn(mailServiceStub, 'send').mockReturnValueOnce(Promise.resolve(new Error()))
-  const result = await sut.sendEmailToUserWithBonus(new User(toName, toEmail))
-  expect(result.value).toBeInstanceOf(MailServiceError)
+  test('should raise error when email service fails', async () => {
+    const { sut, mailServiceStub } = makeSut()
+    jest.spyOn(mailServiceStub, 'send').mockReturnValueOnce(Promise.resolve(new Error()))
+    const result = await sut.sendEmailToUserWithBonus(new User(toName, toEmail))
+    expect(result.value).toBeInstanceOf(MailServiceError)
+  })
 })

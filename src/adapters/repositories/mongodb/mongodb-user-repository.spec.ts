@@ -1,7 +1,7 @@
 import { MongoHelper } from './helpers/mongo-helper'
 import { MongodbUserRepository } from './mongodb-user-repository'
 
-describe('User Mongo repository', () => {
+describe('Mongodb User repository', () => {
   beforeAll(async () => {
     await MongoHelper.connect(process.env.MONGO_URL)
   })
