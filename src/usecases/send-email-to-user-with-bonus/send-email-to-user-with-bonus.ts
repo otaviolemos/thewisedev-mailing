@@ -4,6 +4,7 @@ import { SendEmailResponse } from './send-email-response'
 import { Result, right, left } from '../../shared/result'
 import { SendEmail } from './send-email'
 import { UserData } from '../../domain/user-data'
+import { User } from '../../domain/user'
 
 export class SendEmailToUserWithBonus implements SendEmail {
   private readonly mailService: EmailService
@@ -13,7 +14,8 @@ export class SendEmailToUserWithBonus implements SendEmail {
     this.mailService = mailService
   }
 
-  async sendEmailToUserWithBonus (user: UserData): Promise<SendEmailResponse> {
+  async sendEmailToUserWithBonus (userData: UserData): Promise<SendEmailResponse> {
+    const user = new User(userData)
     this.mailOptions.to = user.name + '<' + user.email + '>'
     const sent = await this.mailService.send(this.mailOptions)
     if (!(sent instanceof Error)) {

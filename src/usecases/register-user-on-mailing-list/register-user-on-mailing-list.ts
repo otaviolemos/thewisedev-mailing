@@ -5,6 +5,7 @@ import { Result, left, right } from '../../shared/result'
 import { ExistingUserError } from '../ports/errors/existing-user-error'
 import { RegisterUser } from './register-user'
 import { RegisterUserResponse } from './register-user-response'
+import { User } from '../../domain/user'
 
 export class RegisterUserOnMailingList implements RegisterUser {
   private readonly userRepository: UserRepository
@@ -13,7 +14,8 @@ export class RegisterUserOnMailingList implements RegisterUser {
     this.userRepository = userRepo
   }
 
-  async registerUserOnMailingList (user: UserData): Promise<RegisterUserResponse> {
+  async registerUserOnMailingList (userData: UserData): Promise<RegisterUserResponse> {
+    const user: User = new User(userData)
     if (this.validateString(user.name) && this.validateString(user.email)) {
       const exists = this.userRepository.exists(user.email)
       if (!(await exists).valueOf()) {
