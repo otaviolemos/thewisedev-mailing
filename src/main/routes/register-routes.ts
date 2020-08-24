@@ -1,7 +1,7 @@
 import { Router } from 'express'
+import { makeRegisterUserController } from '../factories/register'
+import { adaptRoute } from '../adapters/express-route-adapter'
 
 export default (router: Router): void => {
-  router.post('/register', (req, res) => {
-    res.json({ ok: 'ok' })
-  })
+  router.post('/register', adaptRoute(makeRegisterUserController()))
 }
