@@ -2,11 +2,7 @@ import { SendEmailToUserWithBonus } from './send-email-to-user-with-bonus'
 import { EmailService, EmailOptions } from '../ports/email-service'
 import { Right } from '../../shared/result'
 import { MailServiceError } from '../ports/errors/mail-service-error'
-
-// todo - refactor: make MailService have a MailOptions attribute and set everything upon construction (use a default 'to' email)
-// todo - refactor: make MailService have a setTo method that receives name and email and
-//                  sets the 'to' field: to: name + ' <' + email + '>'
-// todo - refactor: make sendEmailToUserWithBonus receive only the User and set the 'to' part of the MailService
+import { MessageInfo } from './message-info'
 
 const attachmentFilePath: string = '../resources/test.txt'
 
@@ -22,13 +18,20 @@ const attachments = [{
   contentType: 'text/plain'
 }]
 
-var mailOptions: EmailOptions = {
+const mailOptions: EmailOptions = {
   host: 'test',
   port: 867,
   username: 'test',
   password: 'test',
   from: fromName + ' ' + fromEmail,
   to: toName + ' <' + toEmail + '>',
+  subject: subject,
+  text: emailBody,
+  html: emailBodyHtml,
+  attachments: attachments
+}
+
+const messageInfo: MessageInfo = {
   subject: subject,
   text: emailBody,
   html: emailBodyHtml,
@@ -43,7 +46,7 @@ class MailServiceStub implements EmailService {
 
 const makeSut = (): { sut: SendEmailToUserWithBonus, mailServiceStub: MailServiceStub } => {
   const mailServiceStub = new MailServiceStub()
-  const sut = new SendEmailToUserWithBonus(mailOptions, mailServiceStub)
+  const sut = new SendEmailToUserWithBonus(mailOptions, mailServiceStub, messageInfo)
   return { sut, mailServiceStub }
 }
 

@@ -4,14 +4,14 @@ import { RegisterUserOnMailingList } from '../../usecases/register-user-on-maili
 import { MongodbUserRepository } from '../../adapters/repositories/mongodb/mongodb-user-repository'
 import { NodemailerEmailService } from '../../adapters/mail-services/nodemailler-email-service'
 import { SendEmailToUserWithBonus } from '../../usecases/send-email-to-user-with-bonus/send-email-to-user-with-bonus'
-import getEmailOptions from '../config/email'
+import { getEmailOptions, getMessageInfo } from '../config/email'
 
 export const makeRegisterUserController = (): RegisterUserController => {
   const validatorEmailValidator = new ValidatorEmailValidator()
   const mongodbUserRepository = new MongodbUserRepository()
   const registerUserOnMailingList = new RegisterUserOnMailingList(mongodbUserRepository)
   const nodemailerEmailService = new NodemailerEmailService()
-  const sendEmailToUserWithBonus = new SendEmailToUserWithBonus(getEmailOptions(), nodemailerEmailService)
+  const sendEmailToUserWithBonus = new SendEmailToUserWithBonus(getEmailOptions(), nodemailerEmailService, getMessageInfo())
   const registerUserController = new RegisterUserController(validatorEmailValidator, registerUserOnMailingList, sendEmailToUserWithBonus)
   return registerUserController
 }
