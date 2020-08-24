@@ -5,8 +5,8 @@ export default (): EmailOptions => {
   const from = 'Otávio Lemos | theWiseDev <otaviolemos@thewisedev.com.br>'
   const to = ''
   const attachments = [{
-    filename: 'lista-tecnicos.html',
-    path: 'https://otaviolemos.github.io/lista-tecnicos.html'
+    filename: 'clean-architecture.pdf',
+    path: 'https://otaviolemos.github.io/clean-architecture.pdf'
   }]
   const mailOptions: EmailOptions = {
     host: config.get('email.host'),
@@ -22,3 +22,9 @@ export default (): EmailOptions => {
   }
   return mailOptions
 }
+
+// TODO: CREATE A TYPE FOR THE FOLLOWING INFO MessageInfo
+// subject: 'Teste',
+// text: 'Teste',
+// html: 'Teste',
+// THIS INFO SHOULD BE SENT TO THE SEND EMAIL USE CASE!!!
