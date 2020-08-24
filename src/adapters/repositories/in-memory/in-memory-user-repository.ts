@@ -1,18 +1,18 @@
 import { UserRepository } from '../../../usecases/ports/user-repository'
-import { User } from '../../../domain/user'
+import { UserData } from '../../../domain/user'
 
 export class InMemoryUserRepository implements UserRepository {
-  users: User[] = []
-  constructor (users: User[]) {
+  users: UserData[] = []
+  constructor (users: UserData[]) {
     this.users = users
   }
 
-  async findAllUsers (): Promise<User[]> {
+  async findAllUsers (): Promise<UserData[]> {
     return this.users
   }
 
-  async findUserByEmail (email: string): Promise<User> {
-    var u: User
+  async findUserByEmail (email: string): Promise<UserData> {
+    var u: UserData
     for (u of this.users) {
       if (u.email === email) {
         return u
@@ -28,7 +28,7 @@ export class InMemoryUserRepository implements UserRepository {
     return true
   }
 
-  async add (user: User): Promise<void> {
+  async add (user: UserData): Promise<void> {
     const exists = await this.exists(user.email)
     if (!exists) {
       this.users.push(user)

@@ -1,19 +1,19 @@
 import { UserRepository } from '../../../usecases/ports/user-repository'
-import { User } from '../../../domain/user'
+import { UserData } from '../../../domain/user'
 import { MongoHelper } from './helpers/mongo-helper'
 
 export class MongodbUserRepository implements UserRepository {
-  async findAllUsers (): Promise<User[]> {
+  async findAllUsers (): Promise<UserData[]> {
     return await MongoHelper.getCollection('users').find().toArray()
   }
 
-  async findUserByEmail (email: string): Promise<User> {
+  async findUserByEmail (email: string): Promise<UserData> {
     const userCollection = MongoHelper.getCollection('users')
     const result = await userCollection.findOne({ email: email })
     return result
   }
 
-  async add (user: User): Promise<void> {
+  async add (user: UserData): Promise<void> {
     const userCollection = MongoHelper.getCollection('users')
     const exists = await this.exists(user.email)
     if (!exists) {

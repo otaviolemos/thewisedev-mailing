@@ -2,7 +2,7 @@ import { SendEmailToUserWithBonus } from './send-email-to-user-with-bonus'
 import { EmailService, EmailOptions } from '../ports/email-service'
 import { Right } from '../../shared/result'
 import { MailServiceError } from '../ports/errors/mail-service-error'
-import { User } from '../../domain/user'
+import { UserData } from '../../domain/user'
 
 // todo - refactor: make MailService have a MailOptions attribute and set everything upon construction (use a default 'to' email)
 // todo - refactor: make MailService have a setTo method that receives name and email and
@@ -51,14 +51,14 @@ const makeSut = (): { sut: SendEmailToUserWithBonus, mailServiceStub: MailServic
 describe('Send email to user with bonus use case', () => {
   test('should email user with attachment', async () => {
     const { sut } = makeSut()
-    const result = await sut.sendEmailToUserWithBonus(new User(toName, toEmail))
+    const result = await sut.sendEmailToUserWithBonus(new UserData(toName, toEmail))
     expect(result).toBeInstanceOf(Right)
   })
 
   test('should raise error when email service fails', async () => {
     const { sut, mailServiceStub } = makeSut()
     jest.spyOn(mailServiceStub, 'send').mockReturnValueOnce(Promise.resolve(new Error()))
-    const result = await sut.sendEmailToUserWithBonus(new User(toName, toEmail))
+    const result = await sut.sendEmailToUserWithBonus(new UserData(toName, toEmail))
     expect(result.value).toBeInstanceOf(MailServiceError)
   })
 })

@@ -1,4 +1,4 @@
-export class User {
+export class UserData {
   public readonly name: string
   public readonly email: string
 

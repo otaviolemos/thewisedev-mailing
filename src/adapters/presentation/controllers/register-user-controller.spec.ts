@@ -3,7 +3,7 @@ import { MissingParamError, InvalidParamError, ServerError } from './errors'
 import { EmailValidator } from './ports/email-validator'
 import { Result, right } from '../../../shared/result'
 import { RegisterUser } from '../../../usecases/register-user-on-mailing-list/register-user'
-import { User } from '../../../domain/user'
+import { UserData } from '../../../domain/user'
 import { SendEmail } from '../../../usecases/send-email-to-user-with-bonus/send-email'
 import { RegisterUserResponse } from '../../../usecases/register-user-on-mailing-list/register-user-response'
 import { SendEmailResponse } from '../../../usecases/send-email-to-user-with-bonus/send-email-response'
@@ -26,7 +26,7 @@ const makeEmailValidator = (): EmailValidator => {
 
 const makeRegisterUser = (): RegisterUser => {
   class RegisterUserOnMailingListStub implements RegisterUser {
-    async registerUserOnMailingList (user: User): Promise<RegisterUserResponse> {
+    async registerUserOnMailingList (user: UserData): Promise<RegisterUserResponse> {
       return await Promise.resolve(right(Result.ok()))
     }
   }
@@ -35,7 +35,7 @@ const makeRegisterUser = (): RegisterUser => {
 
 const makeSendEmailToUser = (): SendEmail => {
   class SendEmailToUserStub implements SendEmail {
-    async sendEmailToUserWithBonus (user: User): Promise<SendEmailResponse> {
+    async sendEmailToUserWithBonus (user: UserData): Promise<SendEmailResponse> {
       return await Promise.resolve(right(Result.ok()))
     }
   }

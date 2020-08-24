@@ -1,4 +1,4 @@
-import { User } from '../../domain/user'
+import { UserData } from '../../domain/user'
 import { UserRepository } from '../ports/user-repository'
 import { InvalidParamError } from '../errors/invalid-param-error'
 import { Result, left, right } from '../../shared/result'
@@ -13,7 +13,7 @@ export class RegisterUserOnMailingList implements RegisterUser {
     this.userRepository = userRepo
   }
 
-  async registerUserOnMailingList (user: User): Promise<RegisterUserResponse> {
+  async registerUserOnMailingList (user: UserData): Promise<RegisterUserResponse> {
     if (this.validateString(user.name) && this.validateString(user.email)) {
       const exists = this.userRepository.exists(user.email)
       if (!(await exists).valueOf()) {

@@ -3,7 +3,7 @@ import { MailServiceError } from '../ports/errors/mail-service-error'
 import { SendEmailResponse } from './send-email-response'
 import { Result, right, left } from '../../shared/result'
 import { SendEmail } from './send-email'
-import { User } from '../../domain/user'
+import { UserData } from '../../domain/user'
 
 export class SendEmailToUserWithBonus implements SendEmail {
   private readonly mailService: EmailService
@@ -13,7 +13,7 @@ export class SendEmailToUserWithBonus implements SendEmail {
     this.mailService = mailService
   }
 
-  async sendEmailToUserWithBonus (user: User): Promise<SendEmailResponse> {
+  async sendEmailToUserWithBonus (user: UserData): Promise<SendEmailResponse> {
     this.mailOptions.to = user.name + '<' + user.email + '>'
     const sent = await this.mailService.send(this.mailOptions)
     if (!(sent instanceof Error)) {
