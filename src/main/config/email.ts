@@ -3,8 +3,8 @@ import { EmailOptions } from '../../usecases/ports/email-service'
 import { MessageInfo } from '../../usecases/send-email-to-user-with-bonus/message-info'
 
 const attachments = [{
-  filename: 'clean-architecture.pdf',
-  path: 'https://otaviolemos.github.io/clean-architecture.pdf'
+  // filename: 'clean-architecture.pdf',
+  // path: 'https://otaviolemos.github.io/clean-architecture.pdf'
 }]
 
 export function getEmailOptions (): EmailOptions {
