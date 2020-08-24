@@ -14,6 +14,7 @@ describe('Register Routes', () => {
   beforeEach(async () => {
     MongoHelper.clearCollection('users')
   })
+
   test('should return an account on success', async () => {
     app.post('/test_cors', (req, res) => {
       res.send()
