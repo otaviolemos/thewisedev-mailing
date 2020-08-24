@@ -1,4 +1,4 @@
-import { UserData } from '../model/user'
+import { UserData } from '../model/user-data'
 import { UserRepository } from '../ports/user-repository'
 import { InMemoryUserRepository } from '../../adapters/repositories/in-memory/in-memory-user-repository'
 import { RegisterUserOnMailingList } from './register-user-on-mailing-list'

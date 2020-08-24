@@ -1,4 +1,4 @@
-import { UserData } from '../model/user'
+import { UserData } from '../model/user-data'
 import { UserRepository } from '../ports/user-repository'
 import { InvalidParamError } from '../errors/invalid-param-error'
 import { Result, left, right } from '../../shared/result'
