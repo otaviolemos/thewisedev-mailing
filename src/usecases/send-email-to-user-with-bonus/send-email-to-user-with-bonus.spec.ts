@@ -2,7 +2,7 @@ import { SendEmailToUserWithBonus } from './send-email-to-user-with-bonus'
 import { EmailService, EmailOptions } from '../ports/email-service'
 import { Right } from '../../shared/result'
 import { MailServiceError } from '../ports/errors/mail-service-error'
-import { UserData } from '../../domain/user'
+import { UserData } from '../model/user'
 
 // todo - refactor: make MailService have a MailOptions attribute and set everything upon construction (use a default 'to' email)
 // todo - refactor: make MailService have a setTo method that receives name and email and

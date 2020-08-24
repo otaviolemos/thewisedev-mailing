@@ -3,7 +3,7 @@ import { MailServiceError } from '../ports/errors/mail-service-error'
 import { SendEmailResponse } from './send-email-response'
 import { Result, right, left } from '../../shared/result'
 import { SendEmail } from './send-email'
-import { UserData } from '../../domain/user'
+import { UserData } from '../model/user'
 
 export class SendEmailToUserWithBonus implements SendEmail {
   private readonly mailService: EmailService

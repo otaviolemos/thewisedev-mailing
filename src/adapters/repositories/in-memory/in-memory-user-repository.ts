@@ -1,5 +1,5 @@
 import { UserRepository } from '../../../usecases/ports/user-repository'
-import { UserData } from '../../../domain/user'
+import { UserData } from '../../../usecases/model/user'
 
 export class InMemoryUserRepository implements UserRepository {
   users: UserData[] = []

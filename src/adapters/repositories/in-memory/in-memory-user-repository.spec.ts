@@ -1,4 +1,4 @@
-import { UserData } from '../../../domain/user'
+import { UserData } from '../../../usecases/model/user'
 import { InMemoryUserRepository } from './in-memory-user-repository'
 import { UserNotFoundError } from '../../../usecases/ports/errors/user-not-found-error'
 
