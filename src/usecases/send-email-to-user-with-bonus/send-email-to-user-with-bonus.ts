@@ -17,11 +17,12 @@ export class SendEmailToUserWithBonus implements SendEmail {
   async sendEmailToUserWithBonus (userData: UserData): Promise<SendEmailResponse> {
     const user = new User(userData)
     this.mailOptions.to = user.name + '<' + user.email + '>'
-    const originalMessageHtml = this.mailOptions.html
-    let greetings = ''
-    greetings = 'E aí <b>' + user.name + '</b>, beleza?'
-    this.mailOptions.html = greetings + '<br> <br>' + originalMessageHtml
+    const originalHtml = this.mailOptions.html
+    const greetings = 'E aí <b>' + user.name + '</b>, beleza?'
+    const customizedHtml = greetings + '<br> <br>' + originalHtml
+    this.mailOptions.html = customizedHtml
     const sent = await this.mailService.send(this.mailOptions)
+    this.mailOptions.html = originalHtml
     if (!(sent instanceof Error)) {
       return right(Result.ok())
     }
