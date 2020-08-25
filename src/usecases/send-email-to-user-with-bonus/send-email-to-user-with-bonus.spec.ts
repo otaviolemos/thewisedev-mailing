@@ -2,7 +2,6 @@ import { SendEmailToUserWithBonus } from './send-email-to-user-with-bonus'
 import { EmailService, EmailOptions } from '../ports/email-service'
 import { Right } from '../../shared/result'
 import { MailServiceError } from '../ports/errors/mail-service-error'
-import { MessageInfo } from './message-info'
 
 const attachmentFilePath: string = '../resources/test.txt'
 
@@ -12,7 +11,7 @@ const toName = 'any_name'
 const toEmail = 'any_email@mail.com'
 const subject = 'Test e-mail'
 const emailBody = 'Hello world attachment test'
-const emailBodyHtml = '<b>Hello world attachment test HTML</b>'
+const emailBodyHtml = '<b>Hello world attachment test</b>'
 const attachments = [{
   filename: attachmentFilePath,
   contentType: 'text/plain'
@@ -31,13 +30,6 @@ const mailOptions: EmailOptions = {
   attachments: attachments
 }
 
-const messageInfo: MessageInfo = {
-  subject: subject,
-  text: emailBody,
-  html: emailBodyHtml,
-  attachments: attachments
-}
-
 class MailServiceStub implements EmailService {
   async send (mailInfo: EmailOptions): Promise<any> {
     return 'my message'
@@ -46,7 +38,7 @@ class MailServiceStub implements EmailService {
 
 const makeSut = (): { sut: SendEmailToUserWithBonus, mailServiceStub: MailServiceStub } => {
   const mailServiceStub = new MailServiceStub()
-  const sut = new SendEmailToUserWithBonus(mailOptions, mailServiceStub, messageInfo)
+  const sut = new SendEmailToUserWithBonus(mailOptions, mailServiceStub)
   return { sut, mailServiceStub }
 }
 
