@@ -18,7 +18,8 @@ export class SendEmailToUserWithBonus implements SendEmail {
     const user = new User(userData)
     this.mailOptions.to = user.name + '<' + user.email + '>'
     const originalMessageHtml = this.mailOptions.html
-    const greetings = 'E aí <b>' + user.name + '</b>, beleza?'
+    let greetings = ''
+    greetings = 'E aí <b>' + user.name + '</b>, beleza?'
     this.mailOptions.html = greetings + '<br> <br>' + originalMessageHtml
     const sent = await this.mailService.send(this.mailOptions)
     if (!(sent instanceof Error)) {

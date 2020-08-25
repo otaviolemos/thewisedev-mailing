@@ -2,8 +2,8 @@ import config from '../../config/config'
 import { EmailOptions } from '../../usecases/ports/email-service'
 
 const attachments = [{
-  // filename: 'clean-architecture.pdf',
-  // path: 'https://otaviolemos.github.io/clean-architecture.pdf'
+  filename: 'clean-architecture.pdf',
+  path: 'https://otaviolemos.github.io/clean-architecture.pdf'
 }]
 
 export function getEmailOptions (): EmailOptions {
@@ -28,7 +28,8 @@ export function getEmailOptions (): EmailOptions {
       'Enquanto isso, fique com esse pequeno presente que preparamos para você com muito carinho: um pôster da <b>Clean Architecture</b>! <br> <br>' +
       'Tenho certeza que você vai curtir! <br> <br>' +
       'Um abraço e até a próxima, <br>' +
-      '<b>Otávio Lemos | theWiseDev</b>',
+      '<b>Otávio Lemos | theWiseDev</b> <br> <br> ',
+    // '<img src="https://otaviolemos.github.io/theWiseDev-signature.png">',
     attachments: attachments
   }
   return mailOptions
