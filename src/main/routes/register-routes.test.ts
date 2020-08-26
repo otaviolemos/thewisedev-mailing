@@ -16,13 +16,14 @@ describe('Register Routes', () => {
   })
 
   test('should return an account on success', async () => {
+    jest.setTimeout(10000)
     app.post('/test_cors', (req, res) => {
       res.send()
     })
     await request(app)
       .post('/api/register')
       .send({
-        name: 'Otavio',
+        name: 'Otavio Lemos',
         email: 'otaviolemos@gmail.com'
       })
       .expect(200)

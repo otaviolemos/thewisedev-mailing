@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "sucrase-node src/main/server.ts",
+    "build": "rimraf dist && tsc",
+    "start": "node dist/main/server.js",
+    "dev": "sucrase-node src/main/server.ts",
     "test": "jest --passWithNoTests --silent --noStackTrace --runInBand",
     "test-verbose": "jest --passWithNoTests --runInBand",
     "test:unit": "npm test -- --watch -c jest-unit-config.js",
@@ -38,6 +40,7 @@
     "install-peerdeps": "^2.0.3",
     "jest": "^26.1.0",
     "lint-staged": "^10.2.11",
+    "rimraf": "^3.0.2",
     "sucrase": "^3.15.0",
     "supertest": "^4.0.2",
     "ts-jest": "^26.1.3",
@@ -46,7 +49,6 @@
   "dependencies": {
     "@types/express": "^4.17.7",
     "express": "^4.17.1",
-    "fast-glob": "^3.2.4",
     "mongodb": "^3.6.0",
     "nodemailer": "^6.4.10",
     "validator": "^13.1.1"
