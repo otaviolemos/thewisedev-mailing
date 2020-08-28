@@ -27,7 +27,6 @@
     "@types/validator": "^13.1.0",
     "@typescript-eslint/eslint-plugin": "^3.6.1",
     "@typescript-eslint/parser": "^3.6.1",
-    "convict": "^6.0.0",
     "eslint": "^7.4.0",
     "eslint-config-standard": "^14.1.1",
     "eslint-config-standard-with-typescript": "^18.0.2",
@@ -50,6 +49,7 @@
     "express": "^4.17.1",
     "mongodb": "^3.6.0",
     "nodemailer": "^6.4.10",
+    "convict": "^6.0.0",
     "validator": "^13.1.1"
   },
   "engines": {
