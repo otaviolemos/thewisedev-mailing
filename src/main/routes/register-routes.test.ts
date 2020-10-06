@@ -16,7 +16,6 @@ describe('Register Routes', () => {
   })
 
   test('should return an account on success', async () => {
-    jest.setTimeout(10000)
     app.post('/test_cors', (req, res) => {
       res.send()
     })
@@ -27,5 +26,5 @@ describe('Register Routes', () => {
         email: 'otaviolemos@gmail.com'
       })
       .expect(200)
-  })
+  }, 15000)
 })
