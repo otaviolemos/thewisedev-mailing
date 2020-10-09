@@ -29,14 +29,7 @@ export function getEmailOptions (): EmailOptions {
       'Tenho certeza que você vai curtir! <br> <br>' +
       'Um abraço e até a próxima, <br>' +
       '<b>Otávio Lemos | theWiseDev</b> <br> <br> ',
-    // '<img src="https://otaviolemos.github.io/theWiseDev-signature.png">',
     attachments: attachments
   }
   return mailOptions
 }
-
-// TODO: CREATE A TYPE FOR THE FOLLOWING INFO MessageInfo
-// subject: 'Teste',
-// text: 'Teste',
-// html: 'Teste',
-// THIS INFO SHOULD BE SENT TO THE SEND EMAIL USE CASE!!!
