@@ -25,7 +25,7 @@ export class SendEmailToUserWithBonus implements SendEmail {
       port: this.mailOptions.port,
       username: this.mailOptions.username,
       password: this.mailOptions.password,
-      from: this.mailOptions.host,
+      from: this.mailOptions.from,
       to: user.name + '<' + user.email + '>',
       subject: this.mailOptions.subject,
       text: this.mailOptions.text,
