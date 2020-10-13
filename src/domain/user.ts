@@ -1,10 +1,12 @@
 import { UserData } from './user-data'
+import { Email } from './email'
+import { Name } from './name'
 
 export class User {
-  public readonly name: string
-  public readonly email: string
+  public readonly name: Name
+  public readonly email: Email
   constructor (userData: UserData) {
-    this.name = userData.name
-    this.email = userData.email
+    this.name = new Name(userData.name)
+    this.email = new Email(userData.email)
   }
 }
