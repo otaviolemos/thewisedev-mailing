@@ -1,11 +1,11 @@
 import { InvalidParamError } from './errors/invalid-param-error'
-import { validateName } from './validators'
+import { validateName, validateString } from './validators'
 
 export class Name {
   private readonly name: string
 
   constructor (name: string) {
-    if (!validateName(name)) {
+    if (!validateString(name) || !validateName(name)) {
       throw new InvalidParamError('name')
     }
     this.name = name
