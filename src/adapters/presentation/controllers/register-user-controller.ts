@@ -1,17 +1,16 @@
 import { HttpRequest, HttpResponse } from './ports/http'
 import { MissingParamError, InvalidParamError } from './errors'
 import { badRequest, serverError, ok } from './helpers/http-helper'
-import { EmailValidator } from './ports/email-validator'
 import { RegisterUser } from '../../../usecases/register-user-on-mailing-list/register-user'
 import { SendEmail } from '../../../usecases/send-email-to-user-with-bonus/send-email'
+import { SendEmailResponse } from '../../../usecases/send-email-to-user-with-bonus/send-email-response'
+import { RegisterUserResponse } from '../../../usecases/register-user-on-mailing-list/register-user-response'
 
 export class RegisterUserController {
-  private readonly emailValidator: EmailValidator
   private readonly registerUser: RegisterUser
   private readonly sendEmailToUser: SendEmail
 
-  constructor (emailValidator: EmailValidator, registerUser: RegisterUser, sendEmailToUser: SendEmail) {
-    this.emailValidator = emailValidator
+  constructor (registerUser: RegisterUser, sendEmailToUser: SendEmail) {
     this.registerUser = registerUser
     this.sendEmailToUser = sendEmailToUser
   }
@@ -24,18 +23,20 @@ export class RegisterUserController {
           return badRequest(new MissingParamError(field))
         }
       }
-      const isValid = this.emailValidator.isValid(httpRequest.body.email)
-      if (!isValid) {
-        return badRequest(new InvalidParamError('email'))
-      }
       const user = { name: httpRequest.body.name, email: httpRequest.body.email }
       try {
-        await this.registerUser.registerUserOnMailingList(user)
+        const ret: RegisterUserResponse = await this.registerUser.registerUserOnMailingList(user)
+        if (ret.value instanceof InvalidParamError) {
+          return badRequest(new InvalidParamError('email or name'))
+        }
       } catch (error) {
         return serverError('registration')
       }
       try {
-        await this.sendEmailToUser.sendEmailToUserWithBonus(user)
+        const ret: SendEmailResponse = await this.sendEmailToUser.sendEmailToUserWithBonus(user)
+        if (ret.value instanceof InvalidParamError) {
+          return badRequest(new InvalidParamError('email or name'))
+        }
       } catch (error) {
         return serverError('email')
       }

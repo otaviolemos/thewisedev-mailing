@@ -49,8 +49,7 @@
     "convict": "^6.0.0",
     "express": "^4.17.1",
     "mongodb": "^3.6.2",
-    "nodemailer": "^6.4.11",
-    "validator": "^13.1.1"
+    "nodemailer": "^6.4.11"
   },
   "engines": {
     "node": "12.12.0"
