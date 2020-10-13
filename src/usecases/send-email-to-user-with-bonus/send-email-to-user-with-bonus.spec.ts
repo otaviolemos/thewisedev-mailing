@@ -1,6 +1,6 @@
 import { SendEmailToUserWithBonus } from './send-email-to-user-with-bonus'
 import { EmailService, EmailOptions } from '../ports/email-service'
-import { Right } from '../../shared/result'
+import { Left, Right } from '../../shared/result'
 import { MailServiceError } from '../ports/errors/mail-service-error'
 
 const attachmentFilePath: string = '../resources/test.txt'
@@ -43,6 +43,12 @@ const makeSut = (): { sut: SendEmailToUserWithBonus, mailServiceStub: MailServic
 }
 
 describe('Send email to user with bonus use case', () => {
+  test('should not email user with invalid email address', async () => {
+    const { sut } = makeSut()
+    const result = await sut.sendEmailToUserWithBonus({ name: toName, email: 'invalid_email' })
+    expect(result).toBeInstanceOf(Left)
+  })
+
   test('should email user with attachment', async () => {
     const { sut } = makeSut()
     const result = await sut.sendEmailToUserWithBonus({ name: toName, email: toEmail })
