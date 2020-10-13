@@ -8,7 +8,6 @@ export class Email {
     if (!validateString(email) || !validateEmail(email)) {
       throw new InvalidParamError('email')
     }
-
     this.email = email
   }
 
