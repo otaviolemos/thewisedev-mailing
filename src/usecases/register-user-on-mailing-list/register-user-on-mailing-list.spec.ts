@@ -2,7 +2,7 @@ import { UserData } from '../../domain/user-data'
 import { UserRepository } from '../ports/user-repository'
 import { InMemoryUserRepository } from '../../adapters/repositories/in-memory/in-memory-user-repository'
 import { RegisterUserOnMailingList } from './register-user-on-mailing-list'
-import { InvalidParamError } from '../errors/invalid-param-error'
+import { InvalidParamError } from '../../domain/errors/invalid-param-error'
 import { ExistingUserError } from '../ports/errors/existing-user-error'
 
 describe('Register user on mailing list use case', () => {

@@ -17,7 +17,7 @@ export class SendEmailToUserWithBonus implements SendEmail {
   async sendEmailToUserWithBonus (userData: UserData): Promise<SendEmailResponse> {
     const user = new User(userData)
 
-    const greetings = 'E aí <b>' + user.name + '</b>, beleza?'
+    const greetings = 'E aí <b>' + user.name.value + '</b>, beleza?'
     const customizedHtml = greetings + '<br> <br>' + this.mailOptions.html
 
     const options = {
@@ -26,7 +26,7 @@ export class SendEmailToUserWithBonus implements SendEmail {
       username: this.mailOptions.username,
       password: this.mailOptions.password,
       from: this.mailOptions.from,
-      to: user.name + '<' + user.email + '>',
+      to: user.name.value + '<' + user.email.value + '>',
       subject: this.mailOptions.subject,
       text: this.mailOptions.text,
       html: customizedHtml,

@@ -1,6 +1,6 @@
 import { UserData } from '../../domain/user-data'
 import { UserRepository } from '../ports/user-repository'
-import { InvalidParamError } from '../errors/invalid-param-error'
+import { InvalidParamError } from '../../domain/errors/invalid-param-error'
 import { Result, left, right } from '../../shared/result'
 import { ExistingUserError } from '../ports/errors/existing-user-error'
 import { RegisterUser } from './register-user'
@@ -15,24 +15,23 @@ export class RegisterUserOnMailingList implements RegisterUser {
   }
 
   async registerUserOnMailingList (userData: UserData): Promise<RegisterUserResponse> {
-    const user: User = new User(userData)
-    if (this.validateString(user.name) && this.validateString(user.email)) {
-      const exists = this.userRepository.exists(user.email)
-      if (!(await exists).valueOf()) {
-        await this.userRepository.add(user)
-        return right(Result.ok())
-      } else {
-        return left(new ExistingUserError())
+    let user: User
+    try {
+      user = new User(userData)
+    } catch (e) {
+      if (e instanceof InvalidParamError) {
+        if (e.message.includes('email')) {
+          return left(new InvalidParamError('email'))
+        }
+        return left(new InvalidParamError('name'))
       }
     }
-    return this.validateString(user.name) ? left(new InvalidParamError('name'))
-      : left(new InvalidParamError('email'))
-  }
-
-  private validateString (str: string): boolean {
-    if (str == null || str === '') {
-      return false
+    const exists = this.userRepository.exists(user.email.value)
+    if (!(await exists).valueOf()) {
+      await this.userRepository.add({ email: user.email.value, name: user.name.value })
+      return right(Result.ok())
+    } else {
+      return left(new ExistingUserError())
     }
-    return true
   }
 }
