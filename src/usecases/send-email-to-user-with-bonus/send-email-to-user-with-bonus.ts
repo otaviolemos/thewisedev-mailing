@@ -5,6 +5,7 @@ import { Result, right, left } from '../../shared/result'
 import { SendEmail } from './send-email'
 import { UserData } from '../../domain/user-data'
 import { User } from '../../domain/user'
+import { InvalidParamError } from '../../domain/errors/invalid-param-error'
 
 export class SendEmailToUserWithBonus implements SendEmail {
   private readonly mailService: EmailService
@@ -15,7 +16,17 @@ export class SendEmailToUserWithBonus implements SendEmail {
   }
 
   async sendEmailToUserWithBonus (userData: UserData): Promise<SendEmailResponse> {
-    const user = new User(userData)
+    let user: User
+    try {
+      user = new User(userData)
+    } catch (error) {
+      if (error instanceof InvalidParamError) {
+        if (error.message.includes('email')) {
+          return left(new InvalidParamError('email'))
+        }
+        return left(new InvalidParamError('name'))
+      }
+    }
 
     const greetings = 'E aí <b>' + user.name.value + '</b>, beleza?'
     const customizedHtml = greetings + '<br> <br>' + this.mailOptions.html
