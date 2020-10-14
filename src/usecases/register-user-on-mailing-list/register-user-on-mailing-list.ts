@@ -17,7 +17,7 @@ export class RegisterUserOnMailingList implements RegisterUser {
   async registerUserOnMailingList (userData: UserData): Promise<RegisterUserResponse> {
     const userOrError: User | InvalidParamError = User.create(userData)
     if (userOrError instanceof InvalidParamError) {
-      return left(new InvalidParamError(userOrError.name))
+      return left(new InvalidParamError(userOrError.paramName))
     }
     const exists = this.userRepository.exists(userOrError.email.value)
     if (!(await exists).valueOf()) {
