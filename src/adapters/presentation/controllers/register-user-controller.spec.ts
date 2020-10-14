@@ -81,6 +81,23 @@ describe('Register User Controller', () => {
     expect(httpResponse.body).toEqual(new InvalidParamError('email'))
   })
 
+  test('should return 400 if an invalid name is provided', async () => {
+    const { sut, registerUserStub } = makeSut()
+    const httpRequest = {
+      body: {
+        name: 'O',
+        email: 'valid@mail.com'
+      }
+    }
+    jest.spyOn(registerUserStub, 'registerUserOnMailingList').mockImplementationOnce(
+      async (user: UserData) => {
+        return await Promise.resolve(left(new InvalidParamError('name')))
+      })
+    const httpResponse = await sut.handle(httpRequest)
+    expect(httpResponse.statusCode).toBe(400)
+    expect(httpResponse.body).toEqual(new InvalidParamError('name'))
+  })
+
   test('should call RegisterUserOnMailingList with correct values and return 200', async () => {
     const { sut, registerUserStub } = makeSut()
     const registerSpy = jest.spyOn(registerUserStub, 'registerUserOnMailingList')

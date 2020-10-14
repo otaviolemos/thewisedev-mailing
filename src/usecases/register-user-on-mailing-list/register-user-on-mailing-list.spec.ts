@@ -17,7 +17,7 @@ describe('Register user on mailing list use case', () => {
     expect((await user).email).toEqual('any_email@mail.com')
   })
 
-  test('should not register new user with invalid name', async () => {
+  test('should not register new user with empty name', async () => {
     const name = ''
     const email = 'any_email@mail.com'
     var users: UserData[] = []
@@ -27,7 +27,17 @@ describe('Register user on mailing list use case', () => {
     expect(error.value).toBeInstanceOf(InvalidParamError)
   })
 
-  test('should not register new user with invalid email', async () => {
+  test('should not register new user with invalid name', async () => {
+    const name = 'O'
+    const email = 'any_email@mail.com'
+    var users: UserData[] = []
+    const repo: UserRepository = new InMemoryUserRepository(users)
+    const sut = new RegisterUserOnMailingList(repo)
+    const error = await sut.registerUserOnMailingList({ name, email })
+    expect(error.value).toBeInstanceOf(InvalidParamError)
+  })
+
+  test('should not register new user with empty email', async () => {
     const name = 'any_name'
     const email = ''
     var users: UserData[] = []
