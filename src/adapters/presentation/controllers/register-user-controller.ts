@@ -28,7 +28,7 @@ export class RegisterUserController {
       try {
         const ret: RegisterUserResponse = await this.registerUser.registerUserOnMailingList(user)
         if (ret.value instanceof InvalidParamError) {
-          return badRequest(new InvalidParamError('email or name'))
+          return badRequest(new InvalidParamError(ret.value.paramName))
         }
       } catch (error) {
         return serverError('registration')
@@ -36,7 +36,7 @@ export class RegisterUserController {
       try {
         const ret: SendEmailResponse = await this.sendEmailToUser.sendEmailToUserWithBonus(user)
         if (ret.value instanceof InvalidParamError) {
-          return badRequest(new InvalidParamError('email or name'))
+          return badRequest(new InvalidParamError(ret.value.paramName))
         }
       } catch (error) {
         return serverError('email')

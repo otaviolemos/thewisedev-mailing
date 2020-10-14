@@ -74,11 +74,11 @@ describe('Register User Controller', () => {
     }
     jest.spyOn(registerUserStub, 'registerUserOnMailingList').mockImplementationOnce(
       async (user: UserData) => {
-        return await Promise.resolve(left(new InvalidParamError('email or name')))
+        return await Promise.resolve(left(new InvalidParamError('email')))
       })
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(400)
-    expect(httpResponse.body).toEqual(new InvalidParamError('email or name'))
+    expect(httpResponse.body).toEqual(new InvalidParamError('email'))
   })
 
   test('should call RegisterUserOnMailingList with correct values and return 200', async () => {
