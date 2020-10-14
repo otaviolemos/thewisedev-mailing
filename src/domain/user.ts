@@ -7,7 +7,7 @@ export class User {
   public readonly name: Name
   public readonly email: Email
 
-  constructor (name: Name, email: Email) {
+  private constructor (name: Name, email: Email) {
     this.name = name
     this.email = email
   }
