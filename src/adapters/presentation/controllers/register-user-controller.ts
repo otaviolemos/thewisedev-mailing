@@ -1,5 +1,6 @@
 import { HttpRequest, HttpResponse } from './ports/http'
-import { MissingParamError, InvalidParamError } from './errors'
+import { MissingParamError } from '../controllers/errors/missing-param-error'
+import { InvalidParamError } from '../../../domain/errors/invalid-param-error'
 import { badRequest, serverError, ok } from './helpers/http-helper'
 import { RegisterUser } from '../../../usecases/register-user-on-mailing-list/register-user'
 import { SendEmail } from '../../../usecases/send-email-to-user-with-bonus/send-email'

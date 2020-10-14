@@ -16,19 +16,13 @@ export class SendEmailToUserWithBonus implements SendEmail {
   }
 
   async sendEmailToUserWithBonus (userData: UserData): Promise<SendEmailResponse> {
-    let user: User
-    try {
-      user = new User(userData)
-    } catch (error) {
-      if (error instanceof InvalidParamError) {
-        if (error.message.includes('email')) {
-          return left(new InvalidParamError('email'))
-        }
-        return left(new InvalidParamError('name'))
-      }
+    const userOrError: User | InvalidParamError = User.create(userData)
+    if (userOrError instanceof InvalidParamError) {
+      return left(new InvalidParamError(userOrError.name))
     }
 
-    const greetings = 'E aí <b>' + user.name.value + '</b>, beleza?'
+    const user: User = userOrError
+    const greetings = 'E aí <b>' + userOrError.name.value + '</b>, beleza?'
     const customizedHtml = greetings + '<br> <br>' + this.mailOptions.html
 
     const options = {

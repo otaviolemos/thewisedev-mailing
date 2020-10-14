@@ -4,11 +4,16 @@ import { validateEmail, validateString } from './validators'
 export class Email {
   private readonly email: string
 
-  constructor (email: string) {
-    if (!validateString(email) || !validateEmail(email)) {
-      throw new InvalidParamError('email')
-    }
+  private constructor (email: string) {
     this.email = email
+    Object.freeze(this)
+  }
+
+  static create (email: string): Email | InvalidParamError {
+    if (!validateString(email) || !validateEmail(email)) {
+      return new InvalidParamError('email')
+    }
+    return new Email(email)
   }
 
   get value (): string {
