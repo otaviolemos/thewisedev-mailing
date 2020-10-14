@@ -1,5 +1,6 @@
 import { RegisterUserController } from './register-user-controller'
-import { MissingParamError, InvalidParamError, ServerError } from './errors'
+import { MissingParamError, ServerError } from './errors'
+import { InvalidParamError } from '../../../domain/errors/invalid-param-error'
 import { left, Result, right } from '../../../shared/result'
 import { RegisterUser } from '../../../usecases/register-user-on-mailing-list/register-user'
 import { UserData } from '../../../domain/user-data'
