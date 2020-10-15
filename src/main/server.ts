@@ -4,6 +4,6 @@ import config from '../config/config'
 MongoHelper.connect(config.get('mongoUrl'))
   .then(async () => {
     const app = (await import('./config/app')).default
-    app.listen(process.env.PORT || 5000, () => { console.log(`Server running at http://localhost:${config.get('port')}`) })
+    app.listen(process.env.PORT || 5050, () => { console.log(`Server running at http://localhost:${config.get('port')}`) })
   })
   .catch(console.error)

@@ -12,7 +12,7 @@ var config = convict({
     default: process.env.MONGO_URL || 'mongodb://localhost:27017/thewisedev-mailing'
   },
   port: {
-    default: process.env.PORT || 5050
+    default: process.env.PORT || 5000
   },
   email: {
     host: {
