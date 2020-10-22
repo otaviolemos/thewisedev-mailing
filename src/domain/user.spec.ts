@@ -1,16 +1,19 @@
-import { InvalidParamError } from './errors/invalid-param-error'
+import { left } from '../shared/either'
+import { InvalidEmailError } from './errors/invalid-email'
+import { InvalidNameError } from './errors/invalid-name'
 import { User } from './user'
 
 describe('User domain entity', () => {
   test('should not create user with invalid e-mail', async () => {
-    const user = User.create({ name: 'Otavio', email: 'not_an_email' })
-    console.log(user)
-    expect(user).toEqual(new InvalidParamError('email'))
+    const email = 'not_an_email'
+    const userOrError = User.create({ name: 'Otavio', email: email })
+    expect(userOrError).toEqual(left(new InvalidEmailError(email)))
   })
 
   test('should not create user with invalid name (too few characters)', async () => {
-    const user = User.create({ name: 'O', email: 'otaviolemos@gmail.com' })
-    expect(user).toEqual(new InvalidParamError('name'))
+    const name = 'O'
+    const user = User.create({ name: name, email: 'otaviolemos@gmail.com' })
+    expect(user).toEqual(left(new InvalidNameError(name)))
   })
 
   test('should not create user with invalid name (too many characters)', async () => {
@@ -19,6 +22,6 @@ describe('User domain entity', () => {
       name += 'c'
     }
     const user = User.create({ name: name, email: 'otaviolemos@gmail.com' })
-    expect(user).toEqual(new InvalidParamError('name'))
+    expect(user).toEqual(left(new InvalidNameError(name)))
   })
 })
