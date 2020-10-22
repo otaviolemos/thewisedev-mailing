@@ -1,5 +1,5 @@
-import { InvalidParamError } from './errors/invalid-param-error'
-import { validateEmail, validateString } from './validators'
+import { Either, left, right } from '../shared/either'
+import { InvalidEmailError } from './errors/invalid-email'
 
 export class Email {
   private readonly email: string
@@ -9,14 +9,44 @@ export class Email {
     Object.freeze(this)
   }
 
-  static create (email: string): Email | InvalidParamError {
-    if (!validateString(email) || !validateEmail(email)) {
-      return new InvalidParamError('email')
+  static create (email: string): Either<InvalidEmailError, Email> {
+    if (!email || !Email.validate(email)) {
+      return left(InvalidEmailError.create(email))
     }
-    return new Email(email)
+    return right(new Email(email))
   }
 
   get value (): string {
     return this.email
+  }
+
+  static validate (email: string): boolean {
+    var tester = /^[-!#$%&'*+/0-9=?A-Z^_a-z`{|}~](\.?[-!#$%&'*+/0-9=?A-Z^_a-z`{|}~])*@[a-zA-Z0-9](-*\.?[a-zA-Z0-9])*\.[a-zA-Z](-?[a-zA-Z0-9])+$/
+
+    if (!email) {
+      return false
+    }
+
+    if (email.length > 256) {
+      return false
+    }
+
+    if (!tester.test(email)) {
+      return false
+    }
+
+    var [account, address] = email.split('@')
+    if (account.length > 64) {
+      return false
+    }
+
+    var domainParts = address.split('.')
+    if (domainParts.some(function (part) {
+      return part.length > 63
+    })) {
+      return false
+    }
+
+    return true
   }
 }

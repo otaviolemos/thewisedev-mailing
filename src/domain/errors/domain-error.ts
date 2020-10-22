@@ -1,0 +1,3 @@
+interface DomainError {
+  message: string
+}

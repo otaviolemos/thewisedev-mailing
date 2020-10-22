@@ -1,7 +1,9 @@
 import { UserData } from './user-data'
 import { Email } from './email'
 import { Name } from './name'
-import { InvalidParamError } from './errors/invalid-param-error'
+import { InvalidEmailError } from './errors/invalid-email'
+import { Either, left, right } from '../shared/either'
+import { InvalidNameError } from './errors/invalid-name'
 
 export class User {
   public readonly name: Name
@@ -12,15 +14,17 @@ export class User {
     this.email = email
   }
 
-  static create (userData: UserData): User | InvalidParamError {
-    const email: Email | InvalidParamError = Email.create(userData.email)
-    const name: Name | InvalidParamError = Name.create(userData.name)
-    if (email instanceof InvalidParamError) {
-      return new InvalidParamError('email')
+  static create (userData: UserData): Either<InvalidNameError | InvalidEmailError, User> {
+    const nameOrError: Either<InvalidNameError, Name> = Name.create(userData.name)
+    const emailOrError: Either<InvalidEmailError, Email> = Email.create(userData.email)
+    if (nameOrError.isLeft()) {
+      return left(InvalidNameError.create(userData.name))
     }
-    if (name instanceof InvalidParamError) {
-      return new InvalidParamError('name')
+    if (emailOrError.isLeft()) {
+      return left(InvalidEmailError.create(userData.email))
     }
-    return new User(name, email)
+    const name: Name = nameOrError.value
+    const email: Email = emailOrError.value
+    return right(new User(name, email))
   }
 }

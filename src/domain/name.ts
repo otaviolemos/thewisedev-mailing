@@ -1,5 +1,5 @@
-import { InvalidParamError } from './errors/invalid-param-error'
-import { validateName, validateString } from './validators'
+import { Either, left, right } from '../shared/either'
+import { InvalidNameError } from './errors/invalid-name'
 
 export class Name {
   private readonly name: string
@@ -9,14 +9,21 @@ export class Name {
     Object.freeze(this)
   }
 
-  static create (name: string): Name | InvalidParamError {
-    if (!validateString(name) || !validateName(name)) {
-      return new InvalidParamError('name')
+  static create (name: string): Either<InvalidNameError, Name> {
+    if (!name || !Name.validate(name)) {
+      return left(InvalidNameError.create(name))
     }
-    return new Name(name)
+    return right(new Name(name))
   }
 
   get value (): string {
     return this.name
+  }
+
+  static validate (name: string): boolean {
+    if (name.length < 2 || name.length > 255) {
+      return false
+    }
+    return true
   }
 }
