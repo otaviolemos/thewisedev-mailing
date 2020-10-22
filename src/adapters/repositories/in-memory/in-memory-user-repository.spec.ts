@@ -1,6 +1,6 @@
 import { UserData } from '../../../domain/user-data'
 import { InMemoryUserRepository } from './in-memory-user-repository'
-import { UserNotFoundError } from '../../../usecases/ports/errors/user-not-found-error'
+import { UserNotFoundError } from '../../../usecases/errors/user-not-found-error'
 
 describe('In memory User repository', () => {
   test('should throw error if user is not found', async () => {

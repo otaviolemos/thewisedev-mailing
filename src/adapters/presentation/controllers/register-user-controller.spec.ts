@@ -1,12 +1,13 @@
 import { RegisterUserController } from './register-user-controller'
 import { MissingParamError, ServerError } from './errors'
-import { InvalidParamError } from '../../../domain/errors/invalid-param-error'
-import { left, Result, right } from '../../../shared/result'
+import { left, right } from '../../../shared/either'
 import { RegisterUser } from '../../../usecases/register-user-on-mailing-list/register-user'
 import { UserData } from '../../../domain/user-data'
 import { SendEmail } from '../../../usecases/send-email-to-user-with-bonus/send-email'
 import { RegisterUserResponse } from '../../../usecases/register-user-on-mailing-list/register-user-response'
 import { SendEmailResponse } from '../../../usecases/send-email-to-user-with-bonus/send-email-response'
+import { InvalidNameError } from '../../../domain/errors/invalid-name'
+import { InvalidEmailError } from '../../../domain/errors/invalid-email'
 
 interface SutType {
   sut: RegisterUserController
@@ -17,7 +18,7 @@ interface SutType {
 const makeRegisterUser = (): RegisterUser => {
   class RegisterUserOnMailingListStub implements RegisterUser {
     async registerUserOnMailingList (user: UserData): Promise<RegisterUserResponse> {
-      return await Promise.resolve(right(Result.ok()))
+      return await Promise.resolve(right(user))
     }
   }
   return new RegisterUserOnMailingListStub()
@@ -26,7 +27,7 @@ const makeRegisterUser = (): RegisterUser => {
 const makeSendEmailToUser = (): SendEmail => {
   class SendEmailToUserStub implements SendEmail {
     async sendEmailToUserWithBonus (user: UserData): Promise<SendEmailResponse> {
-      return await Promise.resolve(right(Result.ok()))
+      return await Promise.resolve(right(true))
     }
   }
   return new SendEmailToUserStub()
@@ -49,7 +50,7 @@ describe('Register User Controller', () => {
     }
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(400)
-    expect(httpResponse.body).toEqual(new MissingParamError('name'))
+    expect(httpResponse.body).toEqual(new MissingParamError('name').message)
   })
 
   test('should return 400 if no email is provided', async () => {
@@ -61,7 +62,7 @@ describe('Register User Controller', () => {
     }
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(400)
-    expect(httpResponse.body).toEqual(new MissingParamError('email'))
+    expect(httpResponse.body).toEqual(new MissingParamError('email').message)
   })
 
   test('should return 400 if an invalid email is provided', async () => {
@@ -74,11 +75,11 @@ describe('Register User Controller', () => {
     }
     jest.spyOn(registerUserStub, 'registerUserOnMailingList').mockImplementationOnce(
       async (user: UserData) => {
-        return await Promise.resolve(left(new InvalidParamError('email')))
+        return await Promise.resolve(left(new InvalidEmailError(user.email)))
       })
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(400)
-    expect(httpResponse.body).toEqual(new InvalidParamError('email'))
+    expect(httpResponse.body).toEqual(new InvalidEmailError(httpRequest.body.email).message)
   })
 
   test('should return 400 if an invalid name is provided', async () => {
@@ -91,11 +92,11 @@ describe('Register User Controller', () => {
     }
     jest.spyOn(registerUserStub, 'registerUserOnMailingList').mockImplementationOnce(
       async (user: UserData) => {
-        return await Promise.resolve(left(new InvalidParamError('name')))
+        return await Promise.resolve(left(new InvalidNameError(user.name)))
       })
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(400)
-    expect(httpResponse.body).toEqual(new InvalidParamError('name'))
+    expect(httpResponse.body).toEqual(new InvalidNameError(httpRequest.body.name).message)
   })
 
   test('should call RegisterUserOnMailingList with correct values and return 200', async () => {
