@@ -2,8 +2,9 @@ import { UserData } from '../../domain/user-data'
 import { UserRepository } from '../ports/user-repository'
 import { InMemoryUserRepository } from '../../adapters/repositories/in-memory/in-memory-user-repository'
 import { RegisterUserOnMailingList } from './register-user-on-mailing-list'
-import { InvalidParamError } from '../../domain/errors/invalid-param-error'
-import { ExistingUserError } from '../ports/errors/existing-user-error'
+import { InvalidNameError } from '../../domain/errors/invalid-name'
+import { InvalidEmailError } from '../../domain/errors/invalid-email'
+import { ExistingUserError } from '../errors/existing-user-error'
 
 describe('Register user on mailing list use case', () => {
   test('should register new user on mailing list with complete data', async () => {
@@ -12,9 +13,10 @@ describe('Register user on mailing list use case', () => {
     var users: UserData[] = []
     const repo: UserRepository = new InMemoryUserRepository(users)
     const sut = new RegisterUserOnMailingList(repo)
-    await sut.registerUserOnMailingList({ name, email })
+    const response = await sut.registerUserOnMailingList({ name, email })
     const user = repo.findUserByEmail(email)
     expect((await user).email).toEqual('any_email@mail.com')
+    expect(response.isRight()).toBeTruthy()
   })
 
   test('should not register new user with empty name', async () => {
@@ -24,7 +26,8 @@ describe('Register user on mailing list use case', () => {
     const repo: UserRepository = new InMemoryUserRepository(users)
     const sut = new RegisterUserOnMailingList(repo)
     const error = await sut.registerUserOnMailingList({ name, email })
-    expect(error.value).toBeInstanceOf(InvalidParamError)
+    expect(error.value).toEqual(new InvalidNameError(name))
+    expect(error.isLeft()).toBeTruthy()
   })
 
   test('should not register new user with invalid name', async () => {
@@ -34,7 +37,7 @@ describe('Register user on mailing list use case', () => {
     const repo: UserRepository = new InMemoryUserRepository(users)
     const sut = new RegisterUserOnMailingList(repo)
     const error = await sut.registerUserOnMailingList({ name, email })
-    expect(error.value).toBeInstanceOf(InvalidParamError)
+    expect(error.value).toEqual(new InvalidNameError(name))
   })
 
   test('should not register new user with empty email', async () => {
@@ -44,7 +47,7 @@ describe('Register user on mailing list use case', () => {
     const repo: UserRepository = new InMemoryUserRepository(users)
     const sut = new RegisterUserOnMailingList(repo)
     const error = await sut.registerUserOnMailingList({ name, email })
-    expect(error.value).toBeInstanceOf(InvalidParamError)
+    expect(error.value).toEqual(new InvalidEmailError(email))
   })
 
   test('should not register new user with undefined email', async () => {
@@ -54,7 +57,7 @@ describe('Register user on mailing list use case', () => {
     const repo: UserRepository = new InMemoryUserRepository(users)
     const sut = new RegisterUserOnMailingList(repo)
     const error = await sut.registerUserOnMailingList({ name, email })
-    expect(error.value).toBeInstanceOf(InvalidParamError)
+    expect(error.value).toEqual(new InvalidEmailError(email))
   })
 
   test('should not register existing user on mailing list', async () => {

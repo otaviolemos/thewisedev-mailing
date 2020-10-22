@@ -1,7 +1,7 @@
 import { SendEmailToUserWithBonus } from './send-email-to-user-with-bonus'
 import { EmailService, EmailOptions } from '../ports/email-service'
-import { Left, Right } from '../../shared/result'
-import { MailServiceError } from '../ports/errors/mail-service-error'
+import { Left, Right } from '../../shared/either'
+import { MailServiceError } from '../errors/mail-service-error'
 
 const attachmentFilePath: string = '../resources/test.txt'
 
