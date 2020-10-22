@@ -1,0 +1,3 @@
+interface UsecaseError {
+  message: string
+}

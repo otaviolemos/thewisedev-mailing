@@ -1,11 +1,14 @@
 import { EmailService, EmailOptions } from '../ports/email-service'
-import { MailServiceError } from '../ports/errors/mail-service-error'
+import { MailServiceError } from '../errors/mail-service-error'
 import { SendEmailResponse } from './send-email-response'
-import { Result, right, left } from '../../shared/result'
+import { right, left, Either } from '../../shared/either'
 import { SendEmail } from './send-email'
 import { UserData } from '../../domain/user-data'
 import { User } from '../../domain/user'
-import { InvalidParamError } from '../../domain/errors/invalid-param-error'
+import { InvalidNameError } from '../../domain/errors/invalid-name'
+import { Name } from '../../domain/name'
+import { InvalidEmailError } from '../../domain/errors/invalid-email'
+import { Email } from '../../domain/email'
 
 export class SendEmailToUserWithBonus implements SendEmail {
   private readonly mailService: EmailService
@@ -16,13 +19,21 @@ export class SendEmailToUserWithBonus implements SendEmail {
   }
 
   async sendEmailToUserWithBonus (userData: UserData): Promise<SendEmailResponse> {
-    const userOrError: User | InvalidParamError = User.create(userData)
-    if (userOrError instanceof InvalidParamError) {
-      return left(new InvalidParamError(userOrError.name))
+    const nameOrError: Either<InvalidNameError, Name> = Name.create(userData.name)
+    const emailOrError: Either<InvalidEmailError, Email> = Email.create(userData.email)
+
+    if (nameOrError.isLeft()) {
+      return left(nameOrError)
     }
 
-    const user: User = userOrError
-    const greetings = 'E aí <b>' + userOrError.name.value + '</b>, beleza?'
+    if (emailOrError.isLeft()) {
+      return left(emailOrError)
+    }
+
+    const userOrError: Either<InvalidNameError | InvalidEmailError, User> = User.create(userData)
+    const user: User = (userOrError.value as User)
+
+    const greetings = 'E aí <b>' + user.name.value + '</b>, beleza?'
     const customizedHtml = greetings + '<br> <br>' + this.mailOptions.html
 
     const options = {
@@ -41,7 +52,7 @@ export class SendEmailToUserWithBonus implements SendEmail {
     const sent = await this.mailService.send(options)
 
     if (!(sent instanceof Error)) {
-      return right(Result.ok())
+      return right(true)
     }
     return left(new MailServiceError())
   }
