@@ -18,30 +18,20 @@ export class RegisterUserController {
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
-      const requiredFields = ['name', 'email']
-      for (const field of requiredFields) {
-        if (!httpRequest.body[field]) {
-          return badRequest(new MissingParamError(field))
-        }
+      if (!httpRequest.body.name || !httpRequest.body.email) {
+        const field = !httpRequest.body.name ? 'name' : 'email'
+        return badRequest(new MissingParamError(field))
       }
-      const user = { name: httpRequest.body.name, email: httpRequest.body.email }
-      try {
-        const ret: RegisterUserResponse = await this.registerUser.registerUserOnMailingList(user)
-        if (ret.isLeft() && !(ret.value instanceof ExistingUserError)) {
-          return badRequest(ret.value)
-        }
-      } catch (error) {
-        return serverError('registration')
+      const userData = { name: httpRequest.body.name, email: httpRequest.body.email }
+      const registerUserResponse: RegisterUserResponse = await this.registerUser.registerUserOnMailingList(userData)
+      if (registerUserResponse.isLeft() && !(registerUserResponse.value instanceof ExistingUserError)) {
+        return badRequest(registerUserResponse.value)
       }
-      try {
-        const ret: SendEmailResponse = await this.sendEmailToUser.sendEmailToUserWithBonus(user)
-        if (ret.isLeft()) {
-          return badRequest(ret.value)
-        }
-      } catch (error) {
-        return serverError('email')
+      const sendEmailResponse: SendEmailResponse = await this.sendEmailToUser.sendEmailToUserWithBonus(userData)
+      if (sendEmailResponse.isLeft()) {
+        return badRequest(sendEmailResponse.value)
       }
-      return ok(user)
+      return ok(userData)
     } catch (error) {
       return serverError('internal')
     }

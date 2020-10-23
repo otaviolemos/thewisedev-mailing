@@ -146,7 +146,7 @@ describe('Register User Controller', () => {
     }
     const response = await sut.handle(httpRequest)
     expect(response.statusCode).toEqual(500)
-    expect((response.body as ServerError).message).toEqual('Server error: registration.')
+    expect((response.body as ServerError).message).toEqual('Server error: internal.')
   })
 
   test('should return 500 if send email user throws', async () => {
@@ -162,6 +162,6 @@ describe('Register User Controller', () => {
     }
     const response = await sut.handle(httpRequest)
     expect(response.statusCode).toEqual(500)
-    expect((response.body as ServerError).message).toEqual('Server error: email.')
+    expect((response.body as ServerError).message).toEqual('Server error: internal.')
   })
 })
