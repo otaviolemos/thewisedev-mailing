@@ -6,9 +6,7 @@ import { SendEmail } from './send-email'
 import { UserData } from '../../domain/user-data'
 import { User } from '../../domain/user'
 import { InvalidNameError } from '../../domain/errors/invalid-name'
-import { Name } from '../../domain/name'
 import { InvalidEmailError } from '../../domain/errors/invalid-email'
-import { Email } from '../../domain/email'
 
 export class SendEmailToUserWithBonus implements SendEmail {
   private readonly mailService: EmailService
@@ -19,23 +17,13 @@ export class SendEmailToUserWithBonus implements SendEmail {
   }
 
   async sendEmailToUserWithBonus (userData: UserData): Promise<SendEmailResponse> {
-    const nameOrError: Either<InvalidNameError, Name> = Name.create(userData.name)
-    const emailOrError: Either<InvalidEmailError, Email> = Email.create(userData.email)
-
-    if (nameOrError.isLeft()) {
-      return left(nameOrError)
-    }
-
-    if (emailOrError.isLeft()) {
-      return left(emailOrError)
-    }
-
     const userOrError: Either<InvalidNameError | InvalidEmailError, User> = User.create(userData)
-    const user: User = (userOrError.value as User)
-
+    if (userOrError.isLeft()) {
+      return left(userOrError.value)
+    }
+    const user: User = userOrError.value
     const greetings = 'E aí <b>' + user.name.value + '</b>, beleza?'
     const customizedHtml = greetings + '<br> <br>' + this.mailOptions.html
-
     const options = {
       host: this.mailOptions.host,
       port: this.mailOptions.port,
@@ -48,9 +36,7 @@ export class SendEmailToUserWithBonus implements SendEmail {
       html: customizedHtml,
       attachments: this.mailOptions.attachments
     }
-
     const sent = await this.mailService.send(options)
-
     if (!(sent instanceof Error)) {
       return right(true)
     }

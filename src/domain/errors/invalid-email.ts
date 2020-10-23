@@ -1,9 +1,6 @@
 export class InvalidEmailError extends Error implements DomainError {
-  public constructor (email: string) {
+  constructor (email: string) {
     super(`The email "${email}" is invalid.`)
-  }
-
-  public static create (email: string): InvalidEmailError {
-    return new InvalidEmailError(email)
+    this.name = 'InvalidEmailError'
   }
 }

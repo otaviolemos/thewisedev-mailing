@@ -10,8 +10,8 @@ export class Name {
   }
 
   static create (name: string): Either<InvalidNameError, Name> {
-    if (!name || !Name.validate(name)) {
-      return left(InvalidNameError.create(name))
+    if (!Name.validate(name)) {
+      return left(new InvalidNameError(name))
     }
     return right(new Name(name))
   }
@@ -21,7 +21,7 @@ export class Name {
   }
 
   static validate (name: string): boolean {
-    if (name.length < 2 || name.length > 255) {
+    if (!name || name.length < 2 || name.length > 255) {
       return false
     }
     return true
