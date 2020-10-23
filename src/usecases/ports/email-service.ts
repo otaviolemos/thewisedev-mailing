@@ -1,3 +1,5 @@
+import { Either } from '../../shared/either'
+import { MailServiceError } from '../errors/mail-service-error'
 
 export interface EmailOptions {
   readonly host: string
@@ -13,5 +15,5 @@ export interface EmailOptions {
 }
 
 export interface EmailService {
-  send: (options: EmailOptions) => Promise<any>
+  send: (options: EmailOptions) => Promise<Either<MailServiceError, EmailOptions>>
 }

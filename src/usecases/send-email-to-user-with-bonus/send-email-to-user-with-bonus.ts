@@ -36,10 +36,10 @@ export class SendEmailToUserWithBonus implements SendEmail {
       html: customizedHtml,
       attachments: this.mailOptions.attachments
     }
-    const sent = await this.mailService.send(options)
-    if (!(sent instanceof Error)) {
-      return right(true)
+    const sent: Either<MailServiceError, EmailOptions> = await this.mailService.send(options)
+    if (sent.isLeft()) {
+      return left(new MailServiceError())
     }
-    return left(new MailServiceError())
+    return right(options)
   }
 }

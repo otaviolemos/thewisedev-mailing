@@ -1,8 +1,10 @@
 import { EmailService, EmailOptions } from '../../usecases/ports/email-service'
 import * as nodemailer from 'nodemailer'
+import { Either, left, right } from '../../shared/either'
+import { MailServiceError } from '../../usecases/errors/mail-service-error'
 
 export class NodemailerEmailService implements EmailService {
-  async send (options: EmailOptions): Promise<any> {
+  async send (options: EmailOptions): Promise<Either<MailServiceError, EmailOptions>> {
     const transporter = nodemailer.createTransport({
       host: options.host,
       port: options.port,
@@ -23,8 +25,8 @@ export class NodemailerEmailService implements EmailService {
         attachments: options.attachments
       })
     } catch (error) {
-      return error
+      return left(new MailServiceError())
     }
-    return info
+    return right(info)
   }
 }

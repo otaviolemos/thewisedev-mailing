@@ -1,6 +1,6 @@
 import { SendEmailToUserWithBonus } from './send-email-to-user-with-bonus'
 import { EmailService, EmailOptions } from '../ports/email-service'
-import { Left, Right } from '../../shared/either'
+import { Either, left, Left, right, Right } from '../../shared/either'
 import { MailServiceError } from '../errors/mail-service-error'
 
 const attachmentFilePath: string = '../resources/test.txt'
@@ -31,8 +31,8 @@ const mailOptions: EmailOptions = {
 }
 
 class MailServiceStub implements EmailService {
-  async send (mailInfo: EmailOptions): Promise<any> {
-    return 'my message'
+  async send (mailInfo: EmailOptions): Promise<Either<MailServiceError, EmailOptions>> {
+    return right(mailInfo)
   }
 }
 
@@ -57,7 +57,7 @@ describe('Send email to user with bonus use case', () => {
 
   test('should raise error when email service fails', async () => {
     const { sut, mailServiceStub } = makeSut()
-    jest.spyOn(mailServiceStub, 'send').mockReturnValueOnce(Promise.resolve(new Error()))
+    jest.spyOn(mailServiceStub, 'send').mockReturnValueOnce(Promise.resolve(left(new MailServiceError())))
     const result = await sut.sendEmailToUserWithBonus({ name: toName, email: toEmail })
     expect(result.value).toBeInstanceOf(MailServiceError)
   })
