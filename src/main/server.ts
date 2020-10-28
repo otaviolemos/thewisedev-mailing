@@ -1,5 +1,5 @@
 import { MongoHelper } from '../adapters/repositories/mongodb/helpers/mongo-helper'
-import config from '../config/config'
+import config from './config/config'
 
 MongoHelper.connect(config.get('mongoUrl'))
   .then(async () => {

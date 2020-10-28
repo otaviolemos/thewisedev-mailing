@@ -1,4 +1,4 @@
-import config from '../../config/config'
+import config from './config'
 import { EmailOptions } from '../../usecases/ports/email-service'
 
 const attachments = [{
