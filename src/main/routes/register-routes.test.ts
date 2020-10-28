@@ -4,6 +4,7 @@ import { MongoHelper } from '../../adapters/repositories/mongodb/helpers/mongo-h
 
 describe('Register Routes', () => {
   beforeAll(async () => {
+    console.log(process.env.EMAIL_HOST)
     await MongoHelper.connect(process.env.MONGO_URL)
   })
 

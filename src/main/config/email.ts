@@ -1,4 +1,3 @@
-import config from './config'
 import { EmailOptions } from '../../usecases/ports/email-service'
 
 const attachments = [{
@@ -10,10 +9,10 @@ export function getEmailOptions (): EmailOptions {
   const from = 'Otávio Lemos | theWiseDev <otaviolemos@thewisedev.com.br>'
   const to = ''
   const mailOptions: EmailOptions = {
-    host: config.get('email.host'),
-    port: config.get('email.port'),
-    username: config.get('email.username'),
-    password: config.get('email.password'),
+    host: process.env.EMAIL_HOST,
+    port: Number.parseInt(process.env.EMAIL_PORT),
+    username: process.env.EMAIL_USERNAME,
+    password: process.env.EMAIL_PASSWORD,
     from: from,
     to: to,
     subject: 'Bem-vindo à comunidade theWiseDev!',
