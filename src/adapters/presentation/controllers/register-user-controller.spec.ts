@@ -8,6 +8,7 @@ import { RegisterUserResponse } from '../../../usecases/register-user-on-mailing
 import { SendEmailResponse } from '../../../usecases/send-email-to-user-with-bonus/send-email-response'
 import { InvalidNameError } from '../../../domain/errors/invalid-name'
 import { InvalidEmailError } from '../../../domain/errors/invalid-email'
+import { EmailOptions } from '../../../usecases/ports/email-service'
 
 interface SutType {
   sut: RegisterUserController
@@ -24,10 +25,36 @@ const makeRegisterUser = (): RegisterUser => {
   return new RegisterUserOnMailingListStub()
 }
 
+const attachmentFilePath: string = '../resources/test.txt'
+const fromName = 'Test'
+const fromEmail = 'from_email@mail.com'
+const toName = 'any_name'
+const toEmail = 'any_email@mail.com'
+const subject = 'Test e-mail'
+const emailBody = 'Hello world attachment test'
+const emailBodyHtml = '<b>Hello world attachment test</b>'
+const attachments = [{
+  filename: attachmentFilePath,
+  contentType: 'text/plain'
+}]
+
+const mailOptions: EmailOptions = {
+  host: 'test',
+  port: 867,
+  username: 'test',
+  password: 'test',
+  from: fromName + ' ' + fromEmail,
+  to: toName + ' <' + toEmail + '>',
+  subject: subject,
+  text: emailBody,
+  html: emailBodyHtml,
+  attachments: attachments
+}
+
 const makeSendEmailToUser = (): SendEmail => {
   class SendEmailToUserStub implements SendEmail {
     async sendEmailToUserWithBonus (user: UserData): Promise<SendEmailResponse> {
-      return await Promise.resolve(right(true))
+      return await Promise.resolve(right(mailOptions))
     }
   }
   return new SendEmailToUserStub()
