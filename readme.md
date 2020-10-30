@@ -1,4 +1,4 @@
-## theWiseDev | API for a squeze page to register users in a mailing list and to email them a bonus (written in Node.js and TypeScript in a Clean Architecture)
+## theWiseDev | API for a squeze page to register users on a mailing list and to email them a bonus (written in Node.js and TypeScript in a Clean Architecture)
 
 This is an implentation of an API used in the backend of the landing page of **theWiseDev** platform (http://www.thewisedev.com.br).
 
