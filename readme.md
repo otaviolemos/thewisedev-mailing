@@ -1,6 +1,6 @@
 ## theWiseDev | API for a squeze page to register users on a mailing list and to email them a bonus (written in Node.js and TypeScript in a Clean Architecture)
 
-This is an implentation of an API used in the backend of the landing page of **theWiseDev** platform (http://www.thewisedev.com.br).
+This is an API used in the backend of the landing page of **theWiseDev** platform (http://www.thewisedev.com.br).
 
 It is a basic *squeeze page* where the user can be registered in the mailing list and receive an e-mail with a bonus.
 
