@@ -4,6 +4,7 @@
     "project": "./tsconfig.eslint.json"
   },
   "rules": {
-    "@typescript-eslint/strict-boolean-expressions": "off"
+    "@typescript-eslint/strict-boolean-expressions": "off",
+    "@typescript-eslint/restrict-plus-operands": "off"
   }
 }
