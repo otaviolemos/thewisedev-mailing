@@ -17,4 +17,6 @@ To run this project you will need to create a .env file at the root of your proj
 
 The EMAIL_* variables are used to send the e-mail to the registered user; MONGO_URL is where your MongoDB is located (you can also create other implementations for the UserRepository for other databases if you like); and PORT is the port where your API will run.
 
+We believe this project can be used as a *reference implementation* of the **Clean Architecture** with Node.js and TypeScript.
+
 Copyright © 2020 theWiseDev
