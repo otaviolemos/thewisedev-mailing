@@ -6,13 +6,21 @@ import { Either, left, right } from '../shared/either'
 import { InvalidNameError } from './errors/invalid-name'
 
 export class User {
-  public readonly name: Name
-  public readonly email: Email
+  private readonly _name: Name
+  private readonly _email: Email
 
   private constructor (name: Name, email: Email) {
-    this.name = name
-    this.email = email
+    this._name = name
+    this._email = email
     Object.freeze(this)
+  }
+
+  get name(): Name {
+    return this._name;
+  }
+
+  get email(): Email {
+    return this._email;
   }
 
   static create (userData: UserData): Either<InvalidNameError | InvalidEmailError, User> {
