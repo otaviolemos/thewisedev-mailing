@@ -24,4 +24,10 @@ describe('User domain entity', () => {
     const user = User.create({ name: name, email: 'otaviolemos@gmail.com' })
     expect(user).toEqual(left(new InvalidNameError(name)))
   })
+
+  test('should not create user with invalid name (only blank spaces)', async () => {
+    const name = '   '
+    const user = User.create({ name: name, email: 'otaviolemos@gmail.com' })
+    expect(user).toEqual(left(new InvalidNameError(name)))
+  })
 })
