@@ -1,7 +1,20 @@
-## theWiseDev - mailing list 
+## theWiseDev | API for a squeze page to register users in a mailing list and to email them a bonus (written in Node.js and TypeScript in a Clean Architecture)
 
-Essa é a API utilizada na landing page do www.thewisedev.com.br
+This is an implentation of an API used in the backend of the landing page of **theWiseDev** platform (http://www.thewisedev.com.br).
 
-Ela foi desenvolvida utilizando conceitos de Clean Architecture, DDD, TDD, refatoração contínua e commits atômicos.
+It is a basic *squeeze page* where the user can be registered in the mailing list and receive an e-mail with a bonus.
 
-Se você quiser clonar e utilizar esse projeto, crie um .env no root do seu projeto com as configurações para as seguintes variáveis de ambiente: EMAIL_HOST, EMAIL_PORT, EMAIL_USERNAME, EMAIL_PASSWORD, MONGO_URL, PORT.
+The API was developed using concepts of the Clean Architecture, Domain-Driven Design, Test-Driven Design, Continuos Refactoring and Atomic Commits.
+
+To run this project you will need to create a .env file at the root of your project with values for the following environment variables:
+
+* EMAIL_HOST
+* EMAIL_PORT
+* EMAIL_USERNAME
+* EMAIL_PASSWORD
+* MONGO_URL
+* PORT
+
+The EMAIL_* variables are used to send the e-mail to the registered user; MONGO_URL is where your MongoDB is located (you can also create other implementations for the UserRepository for other databases if you like); and PORT is the port where your API will run.
+
+Copyright © 2020 theWiseDev
