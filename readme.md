@@ -2,7 +2,7 @@
 
 This is an API used in the backend of the landing page of **theWiseDev** platform (http://www.thewisedev.com.br).
 
-It is a basic *squeeze page* where the user can be registered in the mailing list and receive an e-mail with a bonus.
+It is a basic *squeeze page* where the user can be registered on the mailing list and receive an e-mail with a bonus.
 
 The API was developed using concepts from *Clean Architecture*, *Domain-Driven Design*, *Test-Driven Development*, *Continuos Refactoring*, and *Atomic Commits*.
 
