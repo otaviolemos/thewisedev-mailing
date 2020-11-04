@@ -8,15 +8,15 @@
     "@typescript-eslint/restrict-plus-operands": "off",
     "boundaries/entry-point": "off",
     "boundaries/allowed-types": [2, {
-      "allow": {
-        "entities": ["entities"],
-        "usecases": ["entities", "usecases"],
-        "adapters": ["entities", "usecases", "adapters"],
-        "main": ["entities", "usecases", "adapters", "main"],
-        "shared": ["shared"]
+        "allow": {
+          "entities": ["entities"],
+          "usecases": ["entities", "usecases"],
+          "adapters": ["entities", "usecases", "adapters"],
+          "main": ["entities", "usecases", "adapters", "main"],
+          "shared": ["shared"]
+        }
       }
-    }
-  ]
+    ]
   },
   "plugins": ["boundaries"],
   "settings": {
