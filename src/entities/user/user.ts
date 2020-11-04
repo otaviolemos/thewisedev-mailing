@@ -2,7 +2,7 @@ import { UserData } from './user-data'
 import { Email } from './email'
 import { Name } from './name'
 import { InvalidEmailError } from './errors/invalid-email'
-import { Either, left, right } from '../shared/either'
+import { Either, left, right } from '../../shared/either'
 import { InvalidNameError } from './errors/invalid-name'
 
 export class User {

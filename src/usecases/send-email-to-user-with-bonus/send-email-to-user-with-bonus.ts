@@ -3,10 +3,10 @@ import { MailServiceError } from '../errors/mail-service-error'
 import { SendEmailResponse } from './send-email-response'
 import { right, left, Either } from '../../shared/either'
 import { SendEmail } from './send-email'
-import { UserData } from '../../entities/user-data'
-import { User } from '../../entities/user'
-import { InvalidNameError } from '../../entities/errors/invalid-name'
-import { InvalidEmailError } from '../../entities/errors/invalid-email'
+import { UserData } from '../../entities/user/user-data'
+import { User } from '../../entities/user/user'
+import { InvalidNameError } from '../../entities/user/errors/invalid-name'
+import { InvalidEmailError } from '../../entities/user/errors/invalid-email'
 
 export class SendEmailToUserWithBonus implements SendEmail {
   private readonly mailService: EmailService

@@ -1,4 +1,4 @@
-import { UserData } from '../../../entities/user-data'
+import { UserData } from '../../../entities/user/user-data'
 import { InMemoryUserRepository } from './in-memory-user-repository'
 import { UserNotFoundError } from '../../../usecases/errors/user-not-found-error'
 

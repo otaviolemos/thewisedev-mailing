@@ -27,5 +27,5 @@ describe('Register Routes', () => {
         email: 'otaviolemos@gmail.com'
       })
       .expect(200)
-  }, 15000)
+  }, 20000)
 })
