@@ -1,7 +1,7 @@
 import { RegisterUserController } from '../../adapters/presentation/controllers/register-user-controller'
 import { RegisterUserOnMailingList } from '../../usecases/register-user-on-mailing-list/register-user-on-mailing-list'
-import { MongodbUserRepository } from '../../adapters/repositories/mongodb/mongodb-user-repository'
-import { NodemailerEmailService } from '../../adapters/mail-services/nodemailler-email-service'
+import { MongodbUserRepository } from '../../external/repositories/mongodb/mongodb-user-repository'
+import { NodemailerEmailService } from '../../external/mail-services/nodemailler-email-service'
 import { SendEmailToUserWithBonus } from '../../usecases/send-email-to-user-with-bonus/send-email-to-user-with-bonus'
 import { getEmailOptions } from '../config/email'
 

@@ -1,6 +1,6 @@
 import request from 'supertest'
 import app from '../config/app'
-import { MongoHelper } from '../../adapters/repositories/mongodb/helpers/mongo-helper'
+import { MongoHelper } from '../../external/repositories/mongodb/helpers/mongo-helper'
 
 describe('Register Routes', () => {
   beforeAll(async () => {

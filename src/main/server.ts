@@ -1,4 +1,4 @@
-import { MongoHelper } from '../adapters/repositories/mongodb/helpers/mongo-helper'
+import { MongoHelper } from '../external/repositories/mongodb/helpers/mongo-helper'
 
 MongoHelper.connect(process.env.MONGO_URL)
   .then(async () => {
