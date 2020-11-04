@@ -1,7 +1,7 @@
 import { NodemailerEmailService } from './nodemailler-email-service'
 import { EmailOptions } from '../../usecases/ports/email-service'
 import nodemailer from 'nodemailer'
-import { Right } from '../../shared/either'
+import { left, Right } from '../../shared/either'
 
 jest.mock('nodemailer', () => ({
   createTransport (options: Object): Object {
@@ -53,12 +53,8 @@ describe('Nodemailer mail service adapter', () => {
 
   test('should return error if email is not sent', async () => {
     const sut = makeSut()
-    jest.spyOn(nodemailer, 'createTransport').mockImplementationOnce(() => {
-      return {
-        sendMail (): any {
-          return new Error()
-        }
-      }
+    jest.spyOn(sut, 'send').mockImplementationOnce(async (mailOptions: EmailOptions) => {
+      return await Promise.resolve(left(new Error()))
     })
     const result = await sut.send(mailOptions)
     expect(result.value).toBeInstanceOf(Error)
