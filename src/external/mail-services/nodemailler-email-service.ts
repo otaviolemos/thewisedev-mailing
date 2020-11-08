@@ -14,9 +14,8 @@ export class NodemailerEmailService implements EmailService {
       }
     })
 
-    var info = null
     try {
-      info = await transporter.sendMail({
+      await transporter.sendMail({
         from: options.from,
         to: options.to,
         subject: options.subject,
@@ -27,6 +26,6 @@ export class NodemailerEmailService implements EmailService {
     } catch (error) {
       return left(new MailServiceError())
     }
-    return right(info)
+    return right(options)
   }
 }

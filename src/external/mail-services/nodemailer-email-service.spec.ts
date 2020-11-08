@@ -1,7 +1,6 @@
 import { NodemailerEmailService } from './nodemailler-email-service'
 import { EmailOptions } from '../../usecases/ports/email-service'
 import nodemailer from 'nodemailer'
-import { Right } from '../../shared/either'
 
 jest.mock('nodemailer', () => ({
   createTransport (options: Object): Object {
@@ -48,7 +47,7 @@ describe('Nodemailer mail service adapter', () => {
   test('should return ok if email is sent', async () => {
     const sut = makeSut()
     const result = await sut.send(mailOptions)
-    expect(result).toBeInstanceOf(Right)
+    expect(result.value).toEqual(mailOptions)
   })
 
   test('should call nodemailer createTransport with correct options', async () => {
