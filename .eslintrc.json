@@ -12,6 +12,7 @@
           "entities": ["entities"],
           "usecases": ["entities", "usecases"],
           "adapters": ["entities", "usecases", "adapters"],
+          "external": ["entities", "usecases", "adapters", "external"],
           "main": ["entities", "usecases", "adapters", "main"],
           "shared": ["shared"]
         }
@@ -20,12 +21,13 @@
   },
   "plugins": ["boundaries"],
   "settings": {
-    "boundaries/types": ["entities", "usecases", "adapters", "main", "shared"],
+    "boundaries/types": ["entities", "usecases", "adapters", "external", "main", "shared"],
     "boundaries/ignore": ["src/**/*.spec.ts", "src/**/*.test.ts"],
     "boundaries/alias": {
       "entities": "src/entities",
       "usecases": "src/usecases",
       "adapters": "src/adapters",
+      "external": "src/external",
       "main": "src/main",
       "shared": "src/shared"
     }
