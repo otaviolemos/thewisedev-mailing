@@ -1,7 +1,6 @@
 import { UserData } from '../../entities/user/user-data'
 import { UserRepository } from '../ports/user-repository'
 import { left, right, Either } from '../../shared/either'
-import { ExistingUserError } from '../errors/existing-user-error'
 import { RegisterUser } from './register-user'
 import { RegisterUserResponse } from './register-user-response'
 import { User } from '../../entities/user/user'
@@ -22,10 +21,9 @@ export class RegisterUserOnMailingList implements RegisterUser {
     }
     const user: User = userOrError.value
     const exists = this.userRepository.exists(user.email.value)
-    if ((await exists).valueOf()) {
-      return left(new ExistingUserError())
+    if (!(await exists).valueOf()) {
+      await this.userRepository.add({ name: user.name.value, email: user.email.value })
     }
-    await this.userRepository.add({ name: user.name.value, email: user.email.value })
     return right(userData)
   }
 }

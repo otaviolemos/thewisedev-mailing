@@ -4,7 +4,6 @@ import { InMemoryUserRepository } from '../../external/repositories/in-memory/in
 import { RegisterUserOnMailingList } from './register-user-on-mailing-list'
 import { InvalidNameError } from '../../entities/user/errors/invalid-name'
 import { InvalidEmailError } from '../../entities/user/errors/invalid-email'
-import { ExistingUserError } from '../errors/existing-user-error'
 
 describe('Register user on mailing list use case', () => {
   test('should register new user on mailing list with complete data', async () => {
@@ -58,15 +57,5 @@ describe('Register user on mailing list use case', () => {
     const sut = new RegisterUserOnMailingList(repo)
     const error = await sut.registerUserOnMailingList({ name, email })
     expect(error.value).toEqual(new InvalidEmailError(email))
-  })
-
-  test('should not register existing user on mailing list', async () => {
-    const name = 'any_name'
-    const email = 'any_email@mail.com'
-    const users: UserData[] = [{ name, email }]
-    const repo: UserRepository = new InMemoryUserRepository(users)
-    const sut = new RegisterUserOnMailingList(repo)
-    const error = await sut.registerUserOnMailingList({ name, email })
-    expect(error.value).toBeInstanceOf(ExistingUserError)
   })
 })

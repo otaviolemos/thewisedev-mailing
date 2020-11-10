@@ -5,7 +5,6 @@ import { RegisterUser } from '../../../usecases/register-user-on-mailing-list/re
 import { SendEmail } from '../../../usecases/send-email-to-user-with-bonus/send-email'
 import { SendEmailResponse } from '../../../usecases/send-email-to-user-with-bonus/send-email-response'
 import { RegisterUserResponse } from '../../../usecases/register-user-on-mailing-list/register-user-response'
-import { ExistingUserError } from '../../../usecases/errors/existing-user-error'
 
 export class RegisterUserController {
   private readonly registerUser: RegisterUser
@@ -24,7 +23,7 @@ export class RegisterUserController {
       }
       const userData = { name: httpRequest.body.name, email: httpRequest.body.email }
       const registerUserResponse: RegisterUserResponse = await this.registerUser.registerUserOnMailingList(userData)
-      if (registerUserResponse.isLeft() && !(registerUserResponse.value instanceof ExistingUserError)) {
+      if (registerUserResponse.isLeft()) {
         return badRequest(registerUserResponse.value)
       }
       const sendEmailResponse: SendEmailResponse = await this.sendEmailToUser.sendEmailToUserWithBonus(userData)
