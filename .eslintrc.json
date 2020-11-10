@@ -13,7 +13,7 @@
           "usecases": ["entities", "usecases"],
           "adapters": ["entities", "usecases", "adapters"],
           "external": ["entities", "usecases", "adapters", "external"],
-          "main": ["entities", "usecases", "adapters", "main"],
+          "main": ["entities", "usecases", "adapters", "external", "main"],
           "shared": ["shared"]
         }
       }
