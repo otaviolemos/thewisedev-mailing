@@ -5,16 +5,15 @@ import { MailServiceError } from '../../usecases/errors/mail-service-error'
 
 export class NodemailerEmailService implements EmailService {
   async send (options: EmailOptions): Promise<Either<MailServiceError, EmailOptions>> {
-    const transporter = nodemailer.createTransport({
-      host: options.host,
-      port: options.port,
-      auth: {
-        user: options.username,
-        pass: options.password
-      }
-    })
-
     try {
+      const transporter = nodemailer.createTransport({
+        host: options.host,
+        port: options.port,
+        auth: {
+          user: options.username,
+          pass: options.password
+        }
+      })
       await transporter.sendMail({
         from: options.from,
         to: options.to,

@@ -1,17 +1,6 @@
 import { NodemailerEmailService } from './nodemailler-email-service'
 import { EmailOptions } from '../../usecases/ports/email-service'
-import nodemailer from 'nodemailer'
 import { MailServiceError } from '../../usecases/errors/mail-service-error'
-
-jest.mock('nodemailer', () => ({
-  createTransport (options: Object): Object {
-    return {
-      sendMail (): any {
-        return 'ok'
-      }
-    }
-  }
-}))
 
 const makeSut = (): NodemailerEmailService => {
   return new NodemailerEmailService()
@@ -44,9 +33,21 @@ var mailOptions: EmailOptions = {
   attachments: attachments
 }
 
+jest.mock('nodemailer')
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const nodemailer = require('nodemailer')
+const sendMailMock = jest.fn().mockReturnValueOnce('ok')
+nodemailer.createTransport.mockReturnValue({ sendMail: sendMailMock })
+
+beforeEach(() => {
+  sendMailMock.mockClear()
+  nodemailer.createTransport.mockClear()
+})
+
 describe('Nodemailer mail service adapter', () => {
   test('should return ok if email is sent', async () => {
     const sut = makeSut()
+    sendMailMock.mockReturnValueOnce('ok')
     const result = await sut.send(mailOptions)
     expect(result.value).toEqual(mailOptions)
   })
@@ -67,10 +68,9 @@ describe('Nodemailer mail service adapter', () => {
 
   test('should return error if email is not sent', async () => {
     const sut = makeSut()
-    jest.mock('nodemailer')
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const nodemailer = require('nodemailer')
-    nodemailer.createTransport.mockReturnValue({ sendMail: () => { throw new Error() } })
+    sendMailMock.mockImplementationOnce(() => {
+      throw new Error()
+    })
     const result = await sut.send(mailOptions)
     expect(result.value).toBeInstanceOf(MailServiceError)
   })
