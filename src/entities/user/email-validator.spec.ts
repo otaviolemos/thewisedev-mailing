@@ -10,10 +10,7 @@ describe('Email validator', () => {
   })
 
   test('Should not accept more than 64 chars on local part (4)', () => {
-    var localPart = ''
-    for (let i = 0; i <= 100; i++) {
-      localPart += 'c'
-    }
+    var localPart = 'c'.repeat(100)
     const email = localPart + '@gmail.com'
     expect(Email.validate(email)).toBe(false)
   })
