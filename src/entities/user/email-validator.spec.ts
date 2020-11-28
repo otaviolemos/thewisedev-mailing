@@ -35,10 +35,7 @@ describe('Email validator', () => {
   })
 
   test('Should not accept more than 255 chars on domain part (4)', () => {
-    let domain = ''
-    for (let i = 0; i <= 260; i++) {
-      domain += 'c'
-    }
+    const domain = 'c'.repeat(260)
     const email = 'otaviolemos@' + domain + '.com'
     expect(Email.validate(email)).toBe(false)
   })
