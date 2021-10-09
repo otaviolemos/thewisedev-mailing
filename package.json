@@ -38,12 +38,12 @@
     "git-commit-msg-linter": "^2.7.0",
     "husky": "^4.3.0",
     "install-peerdeps": "^2.0.3",
-    "jest": "^26.6.3",
+    "jest": "^27.2.5",
     "lint-staged": "^10.5.1",
     "rimraf": "^3.0.2",
     "sucrase": "^3.16.0",
     "supertest": "^4.0.2",
-    "ts-jest": "^26.4.4",
+    "ts-jest": "^27.0.5",
     "typescript": "^3.9.7"
   },
   "dependencies": {
@@ -52,9 +52,6 @@
     "express": "^4.17.1",
     "mongodb": "^3.6.3",
     "nodemailer": "^6.4.15",
-    "npm": "^6.14.8"
-  },
-  "engines": {
-    "node": "12.12.0"
+    "npm": "^7.20.6"
   }
 }

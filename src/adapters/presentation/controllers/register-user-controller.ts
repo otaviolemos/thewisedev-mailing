@@ -28,7 +28,7 @@ export class RegisterUserController {
       }
       const sendEmailResponse: SendEmailResponse = await this.sendEmailToUser.sendEmailToUserWithBonus(userData)
       if (sendEmailResponse.isLeft()) {
-        return badRequest(sendEmailResponse.value)
+        return serverError(sendEmailResponse.value.message)
       }
       return ok(userData)
     } catch (error) {
