@@ -6,7 +6,7 @@ It is a basic *squeeze page* where the user can be registered on the mailing lis
 
 The API was developed using concepts from *Clean Architecture*, *Domain-Driven Design*, *Test-Driven Development*, *Continuos Refactoring*, and *Atomic Commits*.
 
-To run this project you will need to create a `.env` file at the root of your project with values for the following environment variables:
+To run this project you will need to create a `.env` file at the root of your project with values for the following environment variables like as in `.env.example`
 
 * `EMAIL_HOST`
 * `EMAIL_PORT`
